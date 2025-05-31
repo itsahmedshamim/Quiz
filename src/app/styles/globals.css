@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+/* Ensure proper font rendering */
+body {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* testimonial section */
+.clip-path-polygon-\[0_0\,100\%_0\,100\%_100\%\] {
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+  }
+
+  @keyframes gradient-rotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-gradient-rotate {
+    background-size: 400% 400%;
+    animation: gradient-rotate 6s ease infinite;
+    transition: all 0.3s ease;
+  }
+
+  .group:hover .animate-gradient-rotate {
+    animation-duration: 3s;
+    box-shadow: 0 0 40px rgba(255, 102, 0, 0.2);
+  }
+
+
+
+/* videos search match keyword hightlight */
+.highlight-match {
+  background-color: #fef9c3;
+  color: #1c1917;
+  padding: 0.1rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+
+
+/* home page hero section flip card */
+
+/* Enhanced 3D effects */
+.perspective {
+  perspective: 1500px;
+}
+
+.transform-style {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition-property: all;
+}
+
+/* Glow effect for interactive elements */
+.hover-glow:hover {
+  filter: drop-shadow(0 0 8px rgba(255, 102, 0, 0.4));
+}
+
+/* Premium shadow effects */
+.shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* // Add this CSS to your global stylesheet (globals.css) */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Ensure 3D transforms are preserved */
+.flip-card-container {
+  transform-style: preserve-3d;
+}
+
+
+
+
+
+
+
+
+
+@keyframes overlay-in {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-overlay-in {
+  animation: overlay-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-light-background dark:bg-dark-background-base;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-brand-500/30 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-brand-500/40;
+}
+
+
+
+.responsive-iframe-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 56.25%; /* Aspect ratio 16:9 (9 / 16 * 100) */
+}
+
+.responsive-iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+
+/* swiper-custom.css */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #FF8533 !important;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 16px;
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+}
+
+.swiper-pagination-bullet-active {
+  background: #FF8533 !important;
+}
+
+
+
+
+
+
+
+/* hero section */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.animate-shimmer {
+  animation: shimmer 1.5s infinite;
+}

@@ -1,0 +1,51 @@
+{
+  "name": "my-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "postbuild": "next-sitemap",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@heroicons/react": "^2.2.0",
+    "@radix-ui/react-tooltip": "^1.1.8",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "aos": "^2.3.4",
+    "canvas-confetti": "^1.9.3",
+    "framer-motion": "^12.4.10",
+    "lodash": "^4.17.21",
+    "next": "^15.3.1",
+    "nprogress": "^0.2.0",
+    "react": "^19.0.0",
+    "react-confetti": "^6.2.3",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-intersection-observer": "^9.16.0",
+    "react-loading-skeleton": "^3.5.0",
+    "react-modal": "^3.16.3",
+    "react-player": "^2.16.0",
+    "react-slick": "^0.30.3",
+    "react-spinners": "^0.15.0",
+    "react-toastify": "^11.0.5",
+    "react-use": "^17.6.0",
+    "react-whatsapp-chat-widget": "^1.1.6",
+    "react-youtube": "^10.1.0",
+    "shaka-player": "^4.13.8",
+    "slick-carousel": "^1.8.1",
+    "swiper": "^11.2.6",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.5",
+    "next-sitemap": "^4.2.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}
