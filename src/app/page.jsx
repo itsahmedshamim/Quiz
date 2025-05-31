@@ -71,43 +71,46 @@ export default function PersonalityQuiz() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-white">
-      {/* Background with very subtle pattern */}
+      {/* Premium background with subtle gradient */}
       <div className="fixed inset-0 z-0">
-        {/* Very light background image */}
-        <div 
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=10')] 
-          bg-cover bg-center opacity-5"
-        ></div>
-        
-        {/* Very light color overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-indigo-50/95 to-purple-50/95"></div>
-        
-        {/* Subtle texture */}
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-3"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-indigo-50/70 to-purple-50/70"></div>
+        <div className="absolute inset-0 bg-[url('/subtle-pattern.svg')] bg-center opacity-[3%]"></div>
       </div>
       
-      {/* Header */}
-      <header className="relative z-10 py-6 px-4">
+      {/* Floating decorative elements */}
+      <div className="fixed top-20 right-20 w-40 h-40 rounded-full bg-indigo-100/30 backdrop-blur-sm -z-10"></div>
+      <div className="fixed bottom-10 left-10 w-32 h-32 rounded-full bg-purple-100/30 backdrop-blur-sm -z-10"></div>
+      
+      {/* Premium header with animation */}
+      <header className="relative z-10 py-5 px-4 border-b border-gray-100 bg-white/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
             className="flex items-center gap-3"
           >
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Q</span>
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center shadow-md">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              Personality Insight
+            <h1 className="text-2xl font-bold text-gray-800 tracking-tight">
+              Personality<span className="text-indigo-600">Insight</span>
             </h1>
           </motion.div>
           
-          <div className="flex items-center gap-2">
-            <div className="hidden md:flex items-center gap-2 text-sm text-indigo-600">
+          <motion.div 
+            className="flex items-center gap-2"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <div className="hidden md:flex items-center gap-2 text-sm text-indigo-600 font-medium">
               <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></div>
               <span>Discover your true self</span>
             </div>
-          </div>
+          </motion.div>
         </div>
       </header>
 
@@ -133,9 +136,9 @@ export default function PersonalityQuiz() {
             {step === 2 && (
               <motion.div
                 key="step2"
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.5 }}
                 className="w-full"
               >
@@ -152,10 +155,10 @@ export default function PersonalityQuiz() {
             {step === 3 && (
               <motion.div
                 key="step3"
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.6 }}
                 className="w-full"
               >
                 <EnhancedResult 
@@ -170,11 +173,34 @@ export default function PersonalityQuiz() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 py-6 px-4 text-center text-sm text-gray-600">
+      {/* Premium footer */}
+      <footer className="relative z-10 py-6 px-4 text-center text-sm text-gray-500 bg-white/80 backdrop-blur-sm border-t border-gray-100">
         <div className="max-w-6xl mx-auto">
-          <p>© {new Date().getFullYear()} Personality Insight. All rights reserved.</p>
-          <p className="mt-1">Discover your true self with our scientifically designed personality assessment.</p>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
+                <span className="text-white font-bold text-xs">Q</span>
+              </div>
+              <p className="font-medium">Personality<span className="text-indigo-600">Insight</span></p>
+            </div>
+            
+            <p className="text-gray-500">© {new Date().getFullYear()} All rights reserved</p>
+            
+            <div className="flex items-center gap-4">
+              <a href="#" className="text-gray-500 hover:text-indigo-600 transition-colors">
+                Privacy
+              </a>
+              <a href="#" className="text-gray-500 hover:text-indigo-600 transition-colors">
+                Terms
+              </a>
+              <a href="#" className="text-gray-500 hover:text-indigo-600 transition-colors">
+                Contact
+              </a>
+            </div>
+          </div>
+          <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
+            Discover your true self with our scientifically designed personality assessment.
+          </p>
         </div>
       </footer>
     </div>
