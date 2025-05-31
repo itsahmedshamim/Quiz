@@ -70,11 +70,20 @@ export default function PersonalityQuiz() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Background with subtle pattern */}
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-white">
+      {/* Background with very subtle pattern */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/10 via-purple-900/5 to-pink-900/5"></div>
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10"></div>
+        {/* Very light background image */}
+        <div 
+          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=10')] 
+          bg-cover bg-center opacity-5"
+        ></div>
+        
+        {/* Very light color overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-indigo-50/95 to-purple-50/95"></div>
+        
+        {/* Subtle texture */}
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-3"></div>
       </div>
       
       {/* Header */}
@@ -88,13 +97,13 @@ export default function PersonalityQuiz() {
             <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
               <span className="text-white font-bold text-lg">Q</span>
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold text-gray-800">
               Personality Insight
             </h1>
           </motion.div>
           
           <div className="flex items-center gap-2">
-            <div className="hidden md:flex items-center gap-2 text-sm text-indigo-700">
+            <div className="hidden md:flex items-center gap-2 text-sm text-indigo-600">
               <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></div>
               <span>Discover your true self</span>
             </div>
