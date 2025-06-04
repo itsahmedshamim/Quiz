@@ -379,8 +379,6 @@ export default function Result({
     </div>
   </div>
 )}
-
-
           {/* Certificate Generator */}
           <div className="mt-6 mb-5 px-4">
             <ResultsCardGenerator
@@ -391,83 +389,7 @@ export default function Result({
             />
           </div>
 
-          {/* Premium CTA */}
-          <motion.div
-            className="bg-gradient-to-br from-indigo-900/90 to-purple-900/90 backdrop-blur-lg text-white rounded-2xl p-4 sm:p-6 md:p-8 text-center mb-6 sm:mb-8 shadow-lg relative overflow-hidden mx-4"
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://assets.website-files.com/5e6c01bb5212506d6c119069/5e6c01bb8abd7762a1f8e48d_pattern-1.svg')] backdrop-blur-sm"></div>
-
-            <div className="relative z-10 max-w-lg mx-auto">
-              <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3">
-                Unlock Your Full Confidence Potential
-              </h3>
-              <p className="text-indigo-200 text-sm sm:text-base mb-5">
-                Personalized coaching and exclusive resources to help you thrive
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-                <div className="bg-white/10 backdrop-blur-sm p-3 sm:p-4 rounded-lg">
-                  <div className="text-amber-300 text-sm sm:text-base font-bold mb-1">
-                    30-Day Program
-                  </div>
-                  <ul className="text-left text-xs sm:text-sm space-y-1">
-                    <li className="flex items-center">
-                      <FiCheck className="mr-1 text-emerald-400" />
-                      <span>Personalized coaching</span>
-                    </li>
-                    <li className="flex items-center">
-                      <FiCheck className="mr-1 text-emerald-400" />
-                      <span>Custom action plans</span>
-                    </li>
-                    <li className="flex items-center">
-                      <FiCheck className="mr-1 text-emerald-400" />
-                      <span>Confidence exercises</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm p-3 sm:p-4 rounded-lg">
-                  <div className="text-amber-300 text-sm sm:text-base font-bold mb-1">
-                    Community Access
-                  </div>
-                  <ul className="text-left text-xs sm:text-sm space-y-1">
-                    <li className="flex items-center">
-                      <FiCheck className="mr-1 text-emerald-400" />
-                      <span>Private support group</span>
-                    </li>
-                    <li className="flex items-center">
-                      <FiCheck className="mr-1 text-emerald-400" />
-                      <span>Weekly group coaching</span>
-                    </li>
-                    <li className="flex items-center">
-                      <FiCheck className="mr-1 text-emerald-400" />
-                      <span>Resource library</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-3">
-                <a
-                  href="https://calendly.com/alexdumascoaching/strategy"
-                  className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-gray-900 font-bold px-5 sm:px-6 py-2 sm:py-3 rounded-xl transition-all shadow-md flex items-center text-xs sm:text-sm backdrop-blur-sm"
-                >
-                  <FiCalendar className="mr-1" />
-                  Schedule Consultation
-                </a>
-
-                <a
-                  href="https://www.alexdumascoaching.com/"
-                  className="bg-white/20 hover:bg-white/30 text-white font-medium px-5 sm:px-6 py-2 sm:py-3 rounded-xl transition-all flex items-center text-xs sm:text-sm backdrop-blur-sm"
-                >
-                  <FiBookOpen className="mr-1" />
-                  View Program Details
-                </a>
-              </div>
-            </div>
-          </motion.div>
+    
         </div>
       </div>
 
