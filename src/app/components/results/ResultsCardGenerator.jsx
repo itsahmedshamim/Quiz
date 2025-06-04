@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { FiDownload } from "react-icons/fi";
 
-const ResultsCardGenerator = ({ 
-  userName, 
-  archetype, 
+const ResultsCardGenerator = ({
+  userName,
+  archetype,
   percentage,
-  userId 
+  userId
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -22,7 +22,7 @@ const ResultsCardGenerator = ({
     "Quiet Achiever": "#8b5cf6",
     "People-Pleaser": "#ec4899",
     "Hidden Leader": "#6366f1",
-    "Bold Believer": "#10b981",
+    "Bold Believer": "#10b981"
   }[primaryArchetype] || "#4f46e5";
 
   const generateResultsImage = async () => {
@@ -72,7 +72,10 @@ const ResultsCardGenerator = ({
       margin + certWidth,
       margin + cornerRadius
     );
-    ctx.lineTo(margin + certWidth, margin + certHeight - cornerRadius);
+    ctx.lineTo(
+      margin + certWidth,
+      margin + certHeight - cornerRadius
+    );
     ctx.quadraticCurveTo(
       margin + certWidth,
       margin + certHeight,
@@ -245,63 +248,30 @@ const ResultsCardGenerator = ({
       }
     });
 
-    // === QR CODE SECTION ===
-    // Now including labels and only last 8 chars of userId
-    const qrPayload = `Name: ${userName}; Archetype: ${primaryArchetype}; Score: ${primaryPercentage}%; ID: ${userIdShort}`;
-
-    // Construct a URL that returns a QR image (100×100) via a public API
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(
-      qrPayload
-    )}`;
-
-    // Create an Image to load that QR
-    const qrImage = new Image();
-    qrImage.crossOrigin = "anonymous"; // ensure no taint
-    qrImage.src = qrUrl;
-
-    // Wait for the QR image to load before drawing
-    await new Promise((resolve, reject) => {
-      qrImage.onload = () => resolve();
-      qrImage.onerror = () => reject(new Error("Failed to load QR image"));
-    });
-
-    // Place the QR at bottom-center with extra bottom margin
-    const qrSize = 100;
-    const qrX = (width - qrSize) / 2;
-    const qrY = height - margin - qrSize - 100;
-
-    ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
-
-    // Label under QR: "Scan to verify"
-    ctx.fillStyle = "#6b7280";
-    ctx.font = "12px Helvetica, Arial, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("Scan to verify", qrX + qrSize / 2, qrY + qrSize + 16);
-
     // 13) Footer date
     const today = new Date();
     const dateText = today.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
-      day: "numeric",
+      day: "numeric"
     });
     ctx.fillStyle = "#6b7280";
     ctx.font = "normal 14px Helvetica, Arial, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText(
       `Generated on ${dateText}`,
-      qrX + qrSize / 2,
-      qrY + qrSize + 36
+      width / 2,
+      height - margin - 40
     );
 
-    // 14) User ID display (last 8 characters)
+    // 14) User ID display (last 8 characters) – moved upward
     ctx.fillStyle = "#6b7280";
     ctx.font = "normal 12px Helvetica, Arial, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText(
       `ID: ${userIdShort}`,
-      qrX + qrSize / 2,
-      qrY + qrSize + 60
+      width / 2,
+      height - margin - 80 // increased offset to move text upward
     );
 
     // 15) Convert to PNG and trigger download
@@ -364,6 +334,3 @@ const ResultsCardGenerator = ({
 };
 
 export default ResultsCardGenerator;
-
-
-

@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Head from "next/head"; // Added for SEO
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -220,157 +221,193 @@ export default function PersonalityQuiz() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col overflow-hidden">
-      {/* Background image + overlay */}
-      <div className="fixed inset-0 ">
-        <div
-          className="absolute inset-0 bg-[url('/assets/bg.jpg')] bg-cover bg-center"
-          aria-hidden="true"
+    <>
+      {/* SEO Metadata */}
+      <Head>
+        <title>Confidence Archetype Quiz | Discover Your Inner Strength</title>
+        <meta 
+          name="description" 
+          content="Uncover your unique confidence archetype and learn how to harness your strengths with our free quiz." 
         />
-        <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
-      </div>
-
-      <Header onSearchClick={() => setIsSearchOpen(true)} />
-
-      <main className="relative z-10 flex-grow flex items-center justify-center py-8 px-0 m-5 mt-10">
-        <div className="w-full max-w-4xl">
-          <AnimatePresence mode="wait">
-            {/* Step 1: UserInfoForm */}
-            {step === STEPS.USER_INFO && (
-              <motion.div
-                key="step1"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-              >
-                <UserInfoForm onSubmit={handleUserInfoSubmit} loading={loading} />
-              </motion.div>
-            )}
-
-            {/* Step 2: QuizIntro */}
-            {step === STEPS.QUIZ_INTRO && (
-              <motion.div
-                key="step2"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-              >
-                <QuizIntro
-                  onNext={() => setStep(STEPS.SCORING_EXPLANATION)}
-                  userName={userData.name}
-                />
-              </motion.div>
-            )}
-
-            {/* Step 3: ScoringExplanation */}
-            {step === STEPS.SCORING_EXPLANATION && (
-              <motion.div
-                key="step3"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-              >
-                <ScoringExplanation onNext={() => setShowReadyModal(true)} />
-              </motion.div>
-            )}
-
-            {/* Step 4: Quiz Questions */}
-            {step === STEPS.QUIZ && (
-              <motion.div
-                key="step4"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-              >
-                <Question
-                  questionData={quizData[currentIndex]}
-                  questionIndex={currentIndex}
-                  totalQuestions={totalQuestions}
-                  onAnswerSelected={handleAnswerSelected}
-                  userName={userData.name}
-                />
-              </motion.div>
-            )}
-
-            {/* Step 5: LoadingResults (POST to store & return new ID) */}
-            {step === STEPS.LOADING && (
-              <motion.div
-                key="loading"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-              >
-                <LoadingResults
-                  userName={userData.name}
-                  userEmail={userData.email}
-                  archetype={archetype}
-                  tally={tally}
-                  totalQuestions={totalQuestions}
-                  onShowResults={showResults}
-                />
-              </motion.div>
-            )}
-
-            {/* Step 6: Show Result */}
-            {step === STEPS.RESULTS && archetype && (
-              <motion.div
-                key="results"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.6 }}
-                className="w-full"
-              >
-                <Result
-                  archetype={archetype}
-                  totalQuestions={totalQuestions}
-                  userName={userData.name}
-                  userId={mongoId}       // Pass the full 24-char ObjectId
-                  onRestart={handleRestart}
-                  tally={tally}
-                  shouldSubmit={!isFromSearch} 
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Confidence Archetype Quiz | Discover Your Inner Strength" />
+        <meta 
+          property="og:description" 
+          content="Take the free quiz to discover your confidence archetype and unlock personalized insights to boost your self-confidence." 
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://yourdomain.com" />
+        <meta 
+          property="og:image" 
+          content="https://yourdomain.com/assets/og-image.jpg" 
+        />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Discover Your Confidence Archetype" />
+        <meta 
+          name="twitter:description" 
+          content="Free quiz reveals your unique confidence style and how to leverage it for success." 
+        />
+        <meta 
+          name="twitter:image" 
+          content="https://yourdomain.com/assets/twitter-card.jpg" 
+        />
+      </Head>
+      
+      <div className="relative min-h-screen flex flex-col overflow-hidden">
+        {/* Background image + overlay */}
+        <div className="fixed inset-0 ">
+          <div
+            className="absolute inset-0 bg-[url('/assets/bg.jpg')] bg-cover bg-center"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
         </div>
-      </main>
 
-      <Footer />
+        <Header onSearchClick={() => setIsSearchOpen(true)} />
 
-      {/* ─── SearchModal (now by last 8 chars of ID) ─────────────────────── */}
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        searchId={searchId}                 // ← last‐8 ID
-        setSearchId={setSearchId}           // ← setter
-        handleSearch={handleSearch}         // ← calls /api/get-result-by-id
-        searchResults={searchResults}
-        searchLoading={searchLoading}
-        searchError={searchError}
-        loadResult={loadResult}
-        clearSearchResults={clearSearchResults}
-        onRestartQuiz={() => {
-          setIsSearchOpen(false);
-          setStep(STEPS.USER_INFO);
-        }}
-      />
+        <main className="relative z-10 flex-grow flex items-center justify-center py-8 px-0 m-5 mt-10">
+          <div className="w-full max-w-4xl">
+            <AnimatePresence mode="wait">
+              {/* Step 1: UserInfoForm */}
+              {step === STEPS.USER_INFO && (
+                <motion.div
+                  key="step1"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full"
+                >
+                  <UserInfoForm onSubmit={handleUserInfoSubmit} loading={loading} />
+                </motion.div>
+              )}
 
-      <ReadyModal
-        isOpen={showReadyModal}
-        onClose={() => setShowReadyModal(false)}
-        onStartQuiz={startQuiz}
-      />
-    </div>
+              {/* Step 2: QuizIntro */}
+              {step === STEPS.QUIZ_INTRO && (
+                <motion.div
+                  key="step2"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full"
+                >
+                  <QuizIntro
+                    onNext={() => setStep(STEPS.SCORING_EXPLANATION)}
+                    userName={userData.name}
+                  />
+                </motion.div>
+              )}
+
+              {/* Step 3: ScoringExplanation */}
+              {step === STEPS.SCORING_EXPLANATION && (
+                <motion.div
+                  key="step3"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full"
+                >
+                  <ScoringExplanation onNext={() => setShowReadyModal(true)} />
+                </motion.div>
+              )}
+
+              {/* Step 4: Quiz Questions */}
+              {step === STEPS.QUIZ && (
+                <motion.div
+                  key="step4"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full"
+                >
+                  <Question
+                    questionData={quizData[currentIndex]}
+                    questionIndex={currentIndex}
+                    totalQuestions={totalQuestions}
+                    onAnswerSelected={handleAnswerSelected}
+                    userName={userData.name}
+                  />
+                </motion.div>
+              )}
+
+              {/* Step 5: LoadingResults (POST to store & return new ID) */}
+              {step === STEPS.LOADING && (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full"
+                >
+                  <LoadingResults
+                    userName={userData.name}
+                    userEmail={userData.email}
+                    archetype={archetype}
+                    tally={tally}
+                    totalQuestions={totalQuestions}
+                    onShowResults={showResults}
+                  />
+                </motion.div>
+              )}
+
+              {/* Step 6: Show Result */}
+              {step === STEPS.RESULTS && archetype && (
+                <motion.div
+                  key="results"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -30 }}
+                  transition={{ duration: 0.6 }}
+                  className="w-full"
+                >
+                  <Result
+                    archetype={archetype}
+                    totalQuestions={totalQuestions}
+                    userName={userData.name}
+                    userId={mongoId}       // Pass the full 24-char ObjectId
+                    onRestart={handleRestart}
+                    tally={tally}
+                    shouldSubmit={!isFromSearch} 
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </main>
+
+        <Footer />
+
+        {/* ─── SearchModal (now by last 8 chars of ID) ─────────────────────── */}
+        <SearchModal
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          searchId={searchId}                 // ← last‐8 ID
+          setSearchId={setSearchId}           // ← setter
+          handleSearch={handleSearch}         // ← calls /api/get-result-by-id
+          searchResults={searchResults}
+          searchLoading={searchLoading}
+          searchError={searchError}
+          loadResult={loadResult}
+          clearSearchResults={clearSearchResults}
+          onRestartQuiz={() => {
+            setIsSearchOpen(false);
+            setStep(STEPS.USER_INFO);
+          }}
+        />
+
+        <ReadyModal
+          isOpen={showReadyModal}
+          onClose={() => setShowReadyModal(false)}
+          onStartQuiz={startQuiz}
+        />
+      </div>
+    </>
   );
 }

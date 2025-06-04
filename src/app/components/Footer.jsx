@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { FiVideo, FiShield } from 'react-icons/fi';
 
 export default function Footer() {
   return (
@@ -22,20 +24,40 @@ export default function Footer() {
             © {new Date().getFullYear()} All rights reserved
           </p>
 
-          {/* Navigation Links */}
+          {/* Navigation Links + “Let’s Talk” */}
           <div className="flex items-center gap-4">
-            <a href="#" className="text-gray-400 hover:text-indigo-400 transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="text-gray-400 hover:text-indigo-400 transition-colors">
-              Terms
-            </a>
-            <a href="#" className="text-gray-400 hover:text-indigo-400 transition-colors">
-              Contact
-            </a>
-            <a href="/dashboard" className="text-gray-400 hover:text-indigo-400 transition-colors">
-              Admin
-            </a>
+            {/* Admin link can stay as motion.a with plain href */}
+            <motion.a
+              href="/dashboard"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              aria-label="Admin"
+              className="flex items-center gap-1 text-gray-400 hover:text-indigo-400 transition-colors"
+            >
+              <FiShield className="h-3 w-3 md:h-4 md:w-4" />
+              <span>Admin</span>
+            </motion.a>
+
+            {/* Let’s Talk as a plain <a> (motion.a) */}
+            <motion.a
+              href="https://calendly.com/alexdumascoaching/strategy"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              aria-label="Let’s Talk"
+              className="
+                flex items-center gap-1
+                border border-indigo-600
+                text-indigo-600 font-medium text-xs md:text-sm
+                px-3 py-1.5 md:px-4 md:py-2
+                rounded-full
+                transition duration-200
+                focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50
+                hover:text-white hover:border-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-600
+              "
+            >
+              <FiVideo className="h-3 w-3 md:h-4 md:w-4" />
+              <span>Let’s Talk</span>
+            </motion.a>
           </div>
         </div>
 

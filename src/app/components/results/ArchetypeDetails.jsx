@@ -47,10 +47,7 @@ export default function ArchetypeDetails({
 
       <div className="p-4 sm:p-6 md:p-8">
         <div className="mb-8 md:mb-10">
-          <h4 className="font-bold text-gray-700 mb-4 md:mb-6 text-lg md:text-xl flex items-center">
-            <FiChevronRight className="mr-2 text-indigo-500" />
-            Key Characteristics:
-          </h4>
+        
           <ul className="space-y-3 md:space-y-4">
             {data.details.map((detail, index) => (
               <motion.li

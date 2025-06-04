@@ -13,7 +13,7 @@ import {
   FiBookOpen,
   FiCalendar,
   FiAward,
-  FiCopy
+  FiCopy,
 } from "react-icons/fi";
 import archetypeData from "../data/archetypeData";
 
@@ -141,7 +141,7 @@ export default function Result({
   // Tab config
   const tabs = [
     { id: "overview", label: "Overview", icon: <FiBarChart2 /> },
-    { id: "strengths", label: "Your Strengths", icon: <FiStar /> },
+    { id: "strengths", label: "Key Insights", icon: <FiStar /> },
     { id: "action", label: "Action Plan", icon: <FiTarget /> },
   ];
 
@@ -160,8 +160,7 @@ export default function Result({
             />
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-5 sm:p-6 border border-white/30">
               <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 flex items-center">
-                <FiBookOpen className="mr-2 text-indigo-500" />
-                Quick Summary
+                <FiBookOpen className="mr-2 text-indigo-500" /> Key Insights
               </h3>
               <p className="text-gray-600 mb-3 text-sm sm:text-base">
                 {data.description}
@@ -214,7 +213,7 @@ export default function Result({
     <div className="relative min-h-screen">
       <div className="relative max-w-6xl mx-auto sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
         <div className="backdrop-blur-lg bg-white/80 rounded-3xl shadow-xl border border-white/30 overflow-hidden">
-        
+          
           {/* Congrats Banner */}
           <CongratsBanner
             userName={userName}
@@ -232,15 +231,13 @@ export default function Result({
                 <span className="font-mono truncate max-w-[80px] sm:max-w-[120px]">
                   {userId.length > 8 ? userId.slice(-8) : userId}
                 </span>
-             <button 
-  onClick={() => navigator.clipboard.writeText(userId.slice(-8))} // ✅ Copy last 8 chars only
-  className="ml-2 text-gray-500 hover:text-indigo-600"
-  title="Copy ID"
->
-  <FiCopy className="w-3 h-3" />
-</button>
-
-
+                <button 
+                  onClick={() => navigator.clipboard.writeText(userId.slice(-8))}
+                  className="ml-2 text-gray-500 hover:text-indigo-600"
+                  title="Copy ID"
+                >
+                  <FiCopy className="w-3 h-3" />
+                </button>
               </div>
             </div>
           )}
@@ -290,47 +287,99 @@ export default function Result({
             </motion.div>
           </AnimatePresence>
 
-          {/* Desktop "Explore Other Archetypes" */}
-          {!isMobile && (
-            <div className="mb-6 bg-white/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-lg mx-4">
-              <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-5 text-center">
-                Explore Other Archetypes
-              </h3>
-              <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
-                {Object.keys(archetypeData).map((type) => {
-                  const isPrimary = type === archetype;
-                  const isCurrentlySelected = selectedArchetype === type;
+ {/* Desktop "Explore Other Archetypes" - only if NOT on the "overview" tab */}
+{!isMobile && activeTab !== "overview" && (
+  <div className="mb-6 bg-white/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-lg mx-4">
+    <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-5 text-center">
+      Explore Other Archetypes
+    </h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      {archetypePercentages.map((item) => {
+        const { type, percentage } = item;
+        const isPrimary = type === archetype;
+        const isCurrentlySelected = selectedArchetype === type;
 
-                  return (
-                    <div key={type} className="relative">
-                      <motion.button
-                        className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg font-medium flex items-center backdrop-blur-sm ${
-                          isCurrentlySelected
-                            ? `text-white bg-gradient-to-r ${archetypeColors[type].gradient} shadow-lg`
-                            : "text-gray-700 bg-white/60 hover:bg-white/80 shadow"
-                        }`}
-                        onClick={() => handleArchetypeSelect(type)}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <span className="mr-1 sm:mr-2 text-sm">
-                          {archetypeIcons[type]}
-                        </span>
-                        <span className="text-xs sm:text-sm">{type}</span>
-                      </motion.button>
-
-                      {/* Mark primary archetype */}
-                      {isPrimary && (
-                        <span className="absolute top-0 right-0 -mt-2 -mr-2 bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded-full backdrop-blur-sm">
-                          Primary
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
+        return (
+          <motion.div
+            key={type}
+            className={`relative rounded-xl p-4 flex flex-col items-center transition-all shadow-md ${
+              isCurrentlySelected
+                ? `ring-2 ring-offset-2 ring-opacity-70 ${
+                    archetypeColors[type].text.replace("text", "ring")
+                  }`
+                : "hover:shadow-lg"
+            }`}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <button
+              className="w-full h-full flex flex-col items-center"
+              onClick={() => handleArchetypeSelect(type)}
+            >
+              <div className="flex items-center justify-center mb-2">
+                <div
+                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${archetypeColors[type].light} mr-2`}
+                >
+                  {archetypeIcons[type]}
+                </div>
+                <h4 className={`font-semibold text-sm sm:text-base ${archetypeColors[type].text}`}>
+                  {type}
+                </h4>
               </div>
-            </div>
-          )}
+
+              {/* Primary label under the name */}
+              {isPrimary && (
+                <span className="mb-1 px-2 py-0.5 bg-green-100 text-green-800 text-[0.65rem] rounded-full">
+                  Primary
+                </span>
+              )}
+
+              {/* Percentage circle */}
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16 mt-2">
+                <svg className="w-full h-full" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#e6e6e6"
+                    strokeWidth="3"
+                  />
+                  <path
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke={archetypeColors[type].text
+                      .replace("text", "stroke")
+                      .split(" ")[0]
+                      .split("-")[1]}
+                    strokeWidth="3"
+                    strokeDasharray={`${percentage}, 100`}
+                  />
+                  <text
+                    x="18"
+                    y="19"
+                    textAnchor="middle"
+                    className={`text-[0.6rem] sm:text-xs font-bold ${archetypeColors[type].text}`}
+                    dy=".3em"
+                  >
+                    {percentage}%
+                  </text>
+                </svg>
+              </div>
+
+              <div className="mt-2 text-xs sm:text-sm text-gray-600">
+                {item.score} of {totalQuestions}
+              </div>
+            </button>
+          </motion.div>
+        );
+      })}
+    </div>
+  </div>
+)}
+
 
           {/* Certificate Generator */}
           <div className="mt-6 mb-5 px-4">
@@ -439,55 +488,59 @@ export default function Result({
         </motion.div>
       )}
 
-      {/* Mobile Archetype Menu */}
-      {isMobileMenuOpen && (
-        <motion.div
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex md:hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+  {/* Mobile Archetype Menu */}
+{isMobileMenuOpen && (
+  <motion.div
+    className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex md:hidden"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+  >
+    <motion.div
+      className="bg-white/90 backdrop-blur-lg w-4/5 h-full p-5"
+      initial={{ x: "-100%" }}
+      animate={{ x: 0 }}
+      transition={{ type: "spring", damping: 25 }}
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-lg font-bold text-gray-800">Archetypes</h2>
+        <button
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="text-gray-500 hover:text-gray-800"
         >
-          <motion.div
-            className="bg-white/90 backdrop-blur-lg w-4/5 h-full p-5"
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            transition={{ type: "spring", damping: 25 }}
+          <FiX className="text-xl" />
+        </button>
+      </div>
+      <div className="space-y-3">
+        {archetypePercentages.map((item) => (
+          <button
+            key={item.type}
+            className={`w-full text-left px-4 py-3 rounded-lg font-medium flex items-center justify-between text-sm ${
+              selectedArchetype === item.type
+                ? `text-white bg-gradient-to-r ${archetypeColors[item.type].gradient}`
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
+            onClick={() => handleArchetypeSelect(item.type)}
           >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-bold text-gray-800">Archetypes</h2>
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-gray-500 hover:text-gray-800"
-              >
-                <FiX className="text-xl" />
-              </button>
+            <div className="flex items-center">
+              <span className="mr-3">{archetypeIcons[item.type]}</span>
+              <span>{item.type}</span>
+              {item.type === archetype && (
+                <span className="ml-2 bg-green-100 text-green-800 text-[0.6rem] font-semibold px-2 py-0.5 rounded-full">
+                  Primary
+                </span>
+              )}
             </div>
-            <div className="space-y-3">
-              {Object.keys(archetypeData).map((type) => (
-                <button
-                  key={type}
-                  className={`w-full text-left px-3 py-2 rounded-lg font-medium flex items-center text-sm ${
-                    selectedArchetype === type
-                      ? `text-white bg-gradient-to-r ${archetypeColors[type].gradient}`
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`}
-                  onClick={() => handleArchetypeSelect(type)}
-                >
-                  <span className="mr-2">{archetypeIcons[type]}</span>
-                  {type}
-                </button>
-              ))}
+            <div className={`font-bold ${archetypeColors[item.type].text}`}>
+              {item.percentage}%
             </div>
-            <div className="mt-6 px-3 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 font-medium flex items-center">
-              <FiCheck className="mr-1 text-green-500" />
-              Primary:{" "}
-              <span className={`ml-1 ${archetypeColors[archetype].text}`}>
-                {archetype}
-              </span>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
+          </button>
+        ))}
+      </div>
+    </motion.div>
+  </motion.div>
+)}
+
     </div>
   );
 }
