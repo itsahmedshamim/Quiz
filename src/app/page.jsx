@@ -1,123 +1,242 @@
-// src/app/page.jsx
+// File: /src/app/page.jsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import SearchModal from "./components/SearchModal";
+import ReadyModal from "./components/ReadyModal";
 import UserInfoForm from "./components/UserInfoForm";
+import QuizIntro from "./components/QuizIntro";
+import ScoringExplanation from "./components/ScoringExplanation";
 import Question from "./components/Question";
-import EnhancedResult from "./components/EnhancedResult";
+import Result from "./components/Result";
+import LoadingResults from "./components/LoadingResults";
+
 import quizData from "./data/quizData";
 
+// Define step constants
+const STEPS = {
+  USER_INFO: 1,
+  QUIZ_INTRO: 2,
+  SCORING_EXPLANATION: 3,
+  QUIZ: 4,
+  LOADING: 5,
+  RESULTS: 6,
+};
+
 export default function PersonalityQuiz() {
-  // App states
-  const [step, setStep] = useState(1); // 1 = user info, 2 = quiz, 3 = results
+  // ─── App State ─────────────────────────────────────────────────────────
+  const [step, setStep] = useState(STEPS.USER_INFO);
   const [userData, setUserData] = useState({ name: "", email: "" });
   const [currentIndex, setCurrentIndex] = useState(0);
   const [tally, setTally] = useState({
-    Visionary: 0,
-    Strategist: 0,
-    Connector: 0,
-    Builder: 0,
-    Supporter: 0,
+    Perfectionist: 0,
+    "Quiet Achiever": 0,
+    "People-Pleaser": 0,
+    "Hidden Leader": 0,
+    "Bold Believer": 0,
   });
   const [loading, setLoading] = useState(false);
+  const [showReadyModal, setShowReadyModal] = useState(false);
+  const [archetype, setArchetype] = useState(null);
+  const [isProcessingResults, setIsProcessingResults] = useState(false);
+
+  // Track whether we came from “search”
+  const [isFromSearch, setIsFromSearch] = useState(false);
+
+  // ─── Search-Related State ─────────────────────────────────────────────
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchId, setSearchId] = useState("");                // ← last‐8‐chars state
+  const [searchResults, setSearchResults] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
+
+  // Add new state variable for MongoDB ID (full 24 chars)
+  const [mongoId, setMongoId] = useState(null);
 
   const totalQuestions = quizData.length;
 
-  // Initialize the tally with your specific scoring pattern
+  // ─── Effects ───────────────────────────────────────────────────────────
+  // Scroll to top whenever `step` changes
   useEffect(() => {
-    // Reset to your desired pattern
-    const initialTally = {
-      Visionary: 6, // First 6 questions will be A (Visionary)
-      Strategist: 2, // Next 2 will be B (Strategist)
-      Connector: 2, // Last 2 will be C (Connector)
-      Builder: 0,
-      Supporter: 0,
-    };
-    setTally(initialTally);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [step]);
+
+  // Whenever the modal closes, we clear the input + previous results in the modal.
+  const clearSearchResults = useCallback(() => {
+    setSearchResults(null);
+    setSearchError("");
   }, []);
 
-  // Handle user info submission
+  // ─── Handlers for the Quiz Flow ────────────────────────────────────────
   const handleUserInfoSubmit = (data) => {
     setUserData(data);
     setLoading(true);
-    
-    // Simulate loading/processing
     setTimeout(() => {
-      setStep(2);
+      setStep(STEPS.QUIZ_INTRO);
       setLoading(false);
     }, 1200);
   };
 
-  // Handle answer selection
-  const handleAnswerSelected = (selectedLabel) => {
-    // Since we're using the predetermined pattern, we don't actually need to track answers
-    // But we'll simulate moving to next question
-    
+  const startQuiz = () => {
+    setShowReadyModal(false);
+    setStep(STEPS.QUIZ);
+  };
+
+  const calculateArchetype = (tallyObj) => {
+    let maxScore = 0;
+    let dominant = null;
+    Object.entries(tallyObj).forEach(([type, score]) => {
+      if (score > maxScore) {
+        maxScore = score;
+        dominant = type;
+      }
+    });
+    return dominant;
+  };
+
+  const handleAnswerSelected = (option) => {
+    const updatedTally = {
+      ...tally,
+      [option.type]: tally[option.type] + 1,
+    };
+    setTally(updatedTally);
+
     if (currentIndex + 1 < totalQuestions) {
       setTimeout(() => setCurrentIndex((idx) => idx + 1), 300);
     } else {
-      // Move to results after last question
-      setStep(3);
+      // Quiz done → compute archetype
+      const dominant = calculateArchetype(updatedTally);
+      setArchetype(dominant);
+
+      // Show loading screen
+      setIsProcessingResults(true);
+      setStep(STEPS.LOADING);
+
+      // Save to localStorage (optional; the actual POST happens inside LoadingResults)
+      const resultData = {
+        name: userData.name,
+        email: userData.email,
+        archetype: dominant,
+        date: new Date().toISOString(),
+        tally: updatedTally,
+      };
+      localStorage.setItem(
+        `result_${userData.email}`,
+        JSON.stringify(resultData)
+      );
     }
   };
 
-  // Restart the quiz
+  // Called by <LoadingResults /> when the POST succeeds—returns the new ObjectId
+  const showResults = (insertedId) => {
+    setMongoId(insertedId);
+    setIsFromSearch(false);
+    setIsProcessingResults(false);
+    setStep(STEPS.RESULTS);
+  };
+
   const handleRestart = () => {
     setCurrentIndex(0);
-    setStep(1);
+    setTally({
+      Perfectionist: 0,
+      "Quiet Achiever": 0,
+      "People-Pleaser": 0,
+      "Hidden Leader": 0,
+      "Bold Believer": 0,
+    });
+    setArchetype(null);
+    setStep(STEPS.USER_INFO);
     setUserData({ name: "", email: "" });
+    setShowReadyModal(false);
+    setIsProcessingResults(false);
+    setIsFromSearch(false);
+    setMongoId(null);
+
+    // Also clear any search-related state
+    setSearchId("");
+    clearSearchResults();
+  };
+
+  // ─── Search by last‐8‐chars ID ──────────────────────────────────────────
+  // Helper that calls /api/get-result-by-id?idLast8=<searchId>
+  const fetchResultByIdLast8 = async (idLast8) => {
+    const response = await fetch(
+      `/api/get-result-by-id?idLast8=${encodeURIComponent(idLast8)}`
+    );
+    if (response.status === 404) {
+      return null;
+    }
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const payload = await response.json();
+    return payload.result || null;
+  };
+
+  // Called when user submits the “last 8 characters” in the modal
+  const handleSearch = async (e) => {
+    if (e) e.preventDefault();
+    setSearchLoading(true);
+    setSearchError("");
+    setSearchResults(null);
+
+    // Basic validation: must be exactly 8 hex digits (0–9, a–f)
+    if (!/^[0-9a-fA-F]{8}$/.test(searchId)) {
+      setSearchError("Please enter exactly 8 hexadecimal characters.");
+      setSearchLoading(false);
+      return;
+    }
+
+    try {
+      const result = await fetchResultByIdLast8(searchId);
+      if (result === null) {
+        setSearchError("No results found for that ID segment. Please try again.");
+      } else {
+        setSearchResults(result);
+      }
+    } catch (err) {
+      console.error("Search error:", err);
+      setSearchError("Something went wrong. Please try again.");
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
+  // When user clicks “View Results” in the modal
+  const loadResult = (result) => {
+    setUserData({ name: result.userName, email: result.userEmail });
+    setArchetype(result.archetype);
+    setTally(result.archetypeScores || {});
+    setMongoId(result._id); // Full 24-char ObjectId from the found document
+    setIsFromSearch(true);
+    setStep(STEPS.RESULTS);
+    setIsSearchOpen(false);
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden bg-white">
-      {/* Premium background with subtle gradient */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-indigo-50/70 to-purple-50/70"></div>
-        <div className="absolute inset-0 bg-[url('/subtle-pattern.svg')] bg-center opacity-[3%]"></div>
+    <div className="relative min-h-screen flex flex-col overflow-hidden">
+      {/* Background image + overlay */}
+      <div className="fixed inset-0 ">
+        <div
+          className="absolute inset-0 bg-[url('/assets/bg.jpg')] bg-cover bg-center"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
       </div>
-      
-      {/* Floating decorative elements */}
-      <div className="fixed top-20 right-20 w-40 h-40 rounded-full bg-indigo-100/30 backdrop-blur-sm -z-10"></div>
-      <div className="fixed bottom-10 left-10 w-32 h-32 rounded-full bg-purple-100/30 backdrop-blur-sm -z-10"></div>
-      
-      {/* Premium header with animation */}
-      <header className="relative z-10 py-5 px-4 border-b border-gray-100 bg-white/80 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3"
-          >
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center shadow-md">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-800 tracking-tight">
-              Personality<span className="text-indigo-600">Insight</span>
-            </h1>
-          </motion.div>
-          
-          <motion.div 
-            className="flex items-center gap-2"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <div className="hidden md:flex items-center gap-2 text-sm text-indigo-600 font-medium">
-              <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></div>
-              <span>Discover your true self</span>
-            </div>
-          </motion.div>
-        </div>
-      </header>
 
-      <main className="flex-grow flex items-center justify-center py-8 px-4 relative z-10">
+      <Header onSearchClick={() => setIsSearchOpen(true)} />
+
+      <main className="relative z-10 flex-grow flex items-center justify-center py-8 px-0 m-5 mt-10">
         <div className="w-full max-w-4xl">
           <AnimatePresence mode="wait">
-            {step === 1 && (
+            {/* Step 1: UserInfoForm */}
+            {step === STEPS.USER_INFO && (
               <motion.div
                 key="step1"
                 initial={{ opacity: 0, y: 20 }}
@@ -126,16 +245,45 @@ export default function PersonalityQuiz() {
                 transition={{ duration: 0.5 }}
                 className="w-full"
               >
-                <UserInfoForm 
-                  onSubmit={handleUserInfoSubmit} 
-                  loading={loading}
+                <UserInfoForm onSubmit={handleUserInfoSubmit} loading={loading} />
+              </motion.div>
+            )}
+
+            {/* Step 2: QuizIntro */}
+            {step === STEPS.QUIZ_INTRO && (
+              <motion.div
+                key="step2"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.5 }}
+                className="w-full"
+              >
+                <QuizIntro
+                  onNext={() => setStep(STEPS.SCORING_EXPLANATION)}
+                  userName={userData.name}
                 />
               </motion.div>
             )}
 
-            {step === 2 && (
+            {/* Step 3: ScoringExplanation */}
+            {step === STEPS.SCORING_EXPLANATION && (
               <motion.div
-                key="step2"
+                key="step3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="w-full"
+              >
+                <ScoringExplanation onNext={() => setShowReadyModal(true)} />
+              </motion.div>
+            )}
+
+            {/* Step 4: Quiz Questions */}
+            {step === STEPS.QUIZ && (
+              <motion.div
+                key="step4"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
@@ -152,20 +300,45 @@ export default function PersonalityQuiz() {
               </motion.div>
             )}
 
-            {step === 3 && (
+            {/* Step 5: LoadingResults (POST to store & return new ID) */}
+            {step === STEPS.LOADING && (
               <motion.div
-                key="step3"
+                key="loading"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="w-full"
+              >
+                <LoadingResults
+                  userName={userData.name}
+                  userEmail={userData.email}
+                  archetype={archetype}
+                  tally={tally}
+                  totalQuestions={totalQuestions}
+                  onShowResults={showResults}
+                />
+              </motion.div>
+            )}
+
+            {/* Step 6: Show Result */}
+            {step === STEPS.RESULTS && archetype && (
+              <motion.div
+                key="results"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.6 }}
                 className="w-full"
               >
-                <EnhancedResult 
-                  tally={tally} 
-                  totalQuestions={totalQuestions} 
+                <Result
+                  archetype={archetype}
+                  totalQuestions={totalQuestions}
                   userName={userData.name}
+                  userId={mongoId}       // Pass the full 24-char ObjectId
                   onRestart={handleRestart}
+                  tally={tally}
+                  shouldSubmit={!isFromSearch} 
                 />
               </motion.div>
             )}
@@ -173,36 +346,31 @@ export default function PersonalityQuiz() {
         </div>
       </main>
 
-      {/* Premium footer */}
-      <footer className="relative z-10 py-6 px-4 text-center text-sm text-gray-500 bg-white/80 backdrop-blur-sm border-t border-gray-100">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
-                <span className="text-white font-bold text-xs">Q</span>
-              </div>
-              <p className="font-medium">Personality<span className="text-indigo-600">Insight</span></p>
-            </div>
-            
-            <p className="text-gray-500">© {new Date().getFullYear()} All rights reserved</p>
-            
-            <div className="flex items-center gap-4">
-              <a href="#" className="text-gray-500 hover:text-indigo-600 transition-colors">
-                Privacy
-              </a>
-              <a href="#" className="text-gray-500 hover:text-indigo-600 transition-colors">
-                Terms
-              </a>
-              <a href="#" className="text-gray-500 hover:text-indigo-600 transition-colors">
-                Contact
-              </a>
-            </div>
-          </div>
-          <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
-            Discover your true self with our scientifically designed personality assessment.
-          </p>
-        </div>
-      </footer>
+      <Footer />
+
+      {/* ─── SearchModal (now by last 8 chars of ID) ─────────────────────── */}
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        searchId={searchId}                 // ← last‐8 ID
+        setSearchId={setSearchId}           // ← setter
+        handleSearch={handleSearch}         // ← calls /api/get-result-by-id
+        searchResults={searchResults}
+        searchLoading={searchLoading}
+        searchError={searchError}
+        loadResult={loadResult}
+        clearSearchResults={clearSearchResults}
+        onRestartQuiz={() => {
+          setIsSearchOpen(false);
+          setStep(STEPS.USER_INFO);
+        }}
+      />
+
+      <ReadyModal
+        isOpen={showReadyModal}
+        onClose={() => setShowReadyModal(false)}
+        onStartQuiz={startQuiz}
+      />
     </div>
   );
 }
