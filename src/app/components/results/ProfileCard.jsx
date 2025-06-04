@@ -50,7 +50,7 @@ export default function ProfileCard() {
               Keynote Speaker • Bestselling Author • Global Movement Leader
             </p>
             <p className="text-gray-600 italic font-light text-sm md:text-base max-w-md md:max-w-lg mx-auto">
-              "Helping leaders speak up, stand out & amplify their impact"
+              "Empowering unstoppable leaders of color to create a global impact that uplifts communities and inspires generations!"
             </p>
 
             {/* Stack buttons vertically, larger on md */}
