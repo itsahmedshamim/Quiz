@@ -39,7 +39,7 @@ export default function Header({ onSearchClick }) {
         </div>
 
         {/* Responsive Verify Button */}
-        <motion.button
+        {/* <motion.button
           onClick={onSearchClick}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
@@ -73,7 +73,7 @@ export default function Header({ onSearchClick }) {
           <span className="text-xs sm:text-sm font-medium hidden sm:inline">
             Verify Results
           </span>
-        </motion.button>
+        </motion.button> */}
       </div>
     </header>
   );
