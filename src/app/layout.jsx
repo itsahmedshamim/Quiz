@@ -1,8 +1,4 @@
 // File: /src/app/layout.jsx
-
-// 1. Remove "use client"—this file should be a server component.
-// 2. Export a `metadata` object so Next.js will generate all the <head> tags for you.
-
 export const metadata = {
   title: "Confidence Archetype Quiz | Discover Your Inner Strength",
   description:

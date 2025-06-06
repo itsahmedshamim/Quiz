@@ -2,12 +2,11 @@
 
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import SearchModal from "./components/SearchModal";
 import ReadyModal from "./components/ReadyModal";
 import UserInfoForm from "./components/UserInfoForm";
 import QuizIntro from "./components/QuizIntro";
@@ -45,16 +44,6 @@ export default function PersonalityQuiz() {
   const [archetype, setArchetype] = useState(null);
   const [isProcessingResults, setIsProcessingResults] = useState(false);
 
-  // Track whether we came from “search”
-  const [isFromSearch, setIsFromSearch] = useState(false);
-
-  // ─── Search-Related State ─────────────────────────────────────────────
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchId, setSearchId] = useState(""); // ← last-8-chars state
-  const [searchResults, setSearchResults] = useState(null);
-  const [searchLoading, setSearchLoading] = useState(false);
-  const [searchError, setSearchError] = useState("");
-
   // Add new state variable for MongoDB ID (full 24 chars)
   const [mongoId, setMongoId] = useState(null);
 
@@ -67,12 +56,6 @@ export default function PersonalityQuiz() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [step]);
-
-  // Whenever the modal closes, we clear the input + previous results in the modal.
-  const clearSearchResults = useCallback(() => {
-    setSearchResults(null);
-    setSearchError("");
-  }, []);
 
   // ─── Handlers for the Quiz Flow ────────────────────────────────────────
   const handleUserInfoSubmit = (data) => {
@@ -137,7 +120,6 @@ export default function PersonalityQuiz() {
   // Called by <LoadingResults /> when the POST succeeds—returns the new ObjectId
   const showResults = (insertedId) => {
     setMongoId(insertedId);
-    setIsFromSearch(false);
     setIsProcessingResults(false);
     setStep(STEPS.RESULTS);
   };
@@ -156,68 +138,7 @@ export default function PersonalityQuiz() {
     setUserData({ name: "", email: "" });
     setShowReadyModal(false);
     setIsProcessingResults(false);
-    setIsFromSearch(false);
     setMongoId(null);
-
-    // Also clear any search-related state
-    setSearchId("");
-    clearSearchResults();
-  };
-
-  // ─── Search by last-8-chars ID ──────────────────────────────────────────
-  // Helper that calls /api/get-result-by-id?idLast8=<searchId>
-  const fetchResultByIdLast8 = async (idLast8) => {
-    const response = await fetch(
-      `/api/get-result-by-id?idLast8=${encodeURIComponent(idLast8)}`
-    );
-    if (response.status === 404) {
-      return null;
-    }
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    const payload = await response.json();
-    return payload.result || null;
-  };
-
-  // Called when user submits the “last 8 characters” in the modal
-  const handleSearch = async (e) => {
-    if (e) e.preventDefault();
-    setSearchLoading(true);
-    setSearchError("");
-    setSearchResults(null);
-
-    // Basic validation: must be exactly 8 hex digits (0–9, a–f)
-    if (!/^[0-9a-fA-F]{8}$/.test(searchId)) {
-      setSearchError("Please enter exactly 8 hexadecimal characters.");
-      setSearchLoading(false);
-      return;
-    }
-
-    try {
-      const result = await fetchResultByIdLast8(searchId);
-      if (result === null) {
-        setSearchError("No results found for that ID segment. Please try again.");
-      } else {
-        setSearchResults(result);
-      }
-    } catch (err) {
-      console.error("Search error:", err);
-      setSearchError("Something went wrong. Please try again.");
-    } finally {
-      setSearchLoading(false);
-    }
-  };
-
-  // When user clicks “View Results” in the modal
-  const loadResult = (result) => {
-    setUserData({ name: result.userName, email: result.userEmail });
-    setArchetype(result.archetype);
-    setTally(result.archetypeScores || {});
-    setMongoId(result._id); // Full 24-char ObjectId from the found document
-    setIsFromSearch(true);
-    setStep(STEPS.RESULTS);
-    setIsSearchOpen(false);
   };
 
   return (
@@ -231,7 +152,7 @@ export default function PersonalityQuiz() {
         <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
       </div>
 
-      <Header onSearchClick={() => setIsSearchOpen(true)} />
+      <Header />
 
       <main className="relative z-10 flex-grow flex items-center justify-center py-8 px-0 m-5 mt-10">
         <div className="w-full max-w-4xl">
@@ -339,7 +260,7 @@ export default function PersonalityQuiz() {
                   userId={mongoId} // Pass the full 24-char ObjectId
                   onRestart={handleRestart}
                   tally={tally}
-                  shouldSubmit={!isFromSearch}
+                  shouldSubmit={true}
                 />
               </motion.div>
             )}
@@ -348,24 +269,6 @@ export default function PersonalityQuiz() {
       </main>
 
       <Footer />
-
-      {/* ─── SearchModal (by last 8 chars of ID) ─────────────────────── */}
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        searchId={searchId}
-        setSearchId={setSearchId}
-        handleSearch={handleSearch}
-        searchResults={searchResults}
-        searchLoading={searchLoading}
-        searchError={searchError}
-        loadResult={loadResult}
-        clearSearchResults={clearSearchResults}
-        onRestartQuiz={() => {
-          setIsSearchOpen(false);
-          setStep(STEPS.USER_INFO);
-        }}
-      />
 
       <ReadyModal
         isOpen={showReadyModal}

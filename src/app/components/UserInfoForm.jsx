@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiUser, FiMail } from 'react-icons/fi';
+import { FiArrowRight, FiUser, FiMail, FiLock } from 'react-icons/fi';
 
 export default function UserInfoForm({ onSubmit, loading }) {
   const [name, setName] = useState('');
@@ -121,9 +121,11 @@ export default function UserInfoForm({ onSubmit, loading }) {
             )}
           </button>
 
-          <p className="mt-4 text-center text-xs text-gray-500">
-            We respect your privacy. Your info is used only to personalize your results.
-          </p>
+          {/* Updated Privacy Notice with Icon */}
+          <div className="mt-4 flex items-center justify-center text-xs text-gray-500">
+            <FiLock className="flex-shrink-0 mr-1.5 text-gray-400" />
+            <span>Your data is secure & used solely for personalization</span>
+          </div>
         </form>
       </div>
     </motion.div>
