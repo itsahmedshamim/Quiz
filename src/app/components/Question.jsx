@@ -98,8 +98,6 @@ export default function Question({
               key={option.label}
               onClick={() => handleSelect(option)}
               disabled={disabled}
-              whileHover={{ y: disabled ? 0 : -2 }}
-              whileTap={{ scale: disabled ? 1 : 0.98 }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -107,8 +105,7 @@ export default function Question({
                 delay: 0.2 + index * 0.1,
                 ease: "easeOut"
               }}
-              className={
-                `
+              className={`
                 w-full
                 flex items-center
                 p-5
@@ -118,8 +115,7 @@ export default function Question({
                 transition-all duration-200
                 focus:outline-none focus:ring-2 focus:ring-indigo-100
                 hover:border-indigo-300
-                group
-                ${disabled ? "opacity-60" : ""}
+                ${disabled ? "opacity-60" : "cursor-pointer"}
                 ${
                   selectedOption === option.label
                     ? "ring-2 ring-indigo-300 bg-indigo-50 border-indigo-300"
@@ -129,8 +125,7 @@ export default function Question({
             >
               {/* Letter in circle */}
               <div
-                className={
-                  `
+                className={`
                   mr-4 flex-shrink-0
                   h-10 w-10
                   rounded-full
@@ -140,7 +135,7 @@ export default function Question({
                   ${
                     selectedOption === option.label
                       ? "bg-indigo-600 text-white"
-                      : "bg-indigo-100 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white"
+                      : "bg-indigo-100 text-indigo-600"
                   }
                 `}
               >
@@ -149,13 +144,12 @@ export default function Question({
 
               {/* Option text */}
               <span
-                className={
-                  `
+                className={`
                   transition-colors
                   ${
                     selectedOption === option.label
                       ? "text-indigo-800 font-medium"
-                      : "text-gray-800 group-hover:text-indigo-700"
+                      : "text-gray-800"
                   }
                 `}
               >

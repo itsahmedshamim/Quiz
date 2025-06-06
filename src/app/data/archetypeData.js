@@ -7,7 +7,7 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... The Quiet Achiever!",
-    image: "/assets/images/quiet-achiver-female.png",
+    image: "/assets/images/quiet-achiver.webp",
     description: "Skilled but under- recognized; struggles to speak up.",
     challenges: "Fear of judgment, imposter syndrome.",
     opportunities: "Coaching on assertiveness, executive presence.",
@@ -24,7 +24,7 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... The Perfectionist!",
-    image: "/assets/images/perfectionist-female.png",
+    image: "/assets/images/perfectionist.webp",
     description: "High standards but stuck in procrastination.",
     challenges: "Burnout, delay in progress.",
     opportunities: "Confidence in progress over perfection.",
@@ -41,7 +41,7 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... A People-Pleaser!",
-    image: "/assets/images/people-pleaser-female.png",
+    image: "/assets/images/people-pleaser.webp",
     description: "Seeks validation, avoids conflict.",
     challenges: "Weak boundaries, secret resentment.",
     opportunities: "Empowerment to say 'no' and own their voice.",
@@ -58,7 +58,7 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... The Hidden Leader!",
-    image: "/assets/images/hidden-leader-male.png",
+    image: "/assets/images/hidden-leader.webp",
     description: "Has influence but avoids the spotlight.",
     challenges: "Low visibility, missed opportunities.",
     opportunities: "Stepping into leadership with intention.",
@@ -75,7 +75,7 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... The Bold Believer!",
-    image: "/assets/images/bold-bliever-female.png",
+    image: "/assets/images/bold-bliever.webp",
     description: "High confidence but inconsistent results.",
     challenges: "Lacks structure or clarity. Impulsivity.",
     opportunities: "Refine the strategy to match their boldness.",

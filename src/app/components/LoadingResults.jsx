@@ -3,15 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FiBarChart2,
-  FiPieChart,
-  FiTrendingUp,
-  FiUser,
-  FiAward,
-  FiEyeOff,
-  FiCheckCircle
-} from "react-icons/fi";
+import { FiBarChart2, FiPieChart, FiTrendingUp, FiUser, FiAward, FiEyeOff, FiCheckCircle, FiLock } from "react-icons/fi";
 
 export default function LoadingResults({
   userName,
@@ -43,7 +35,6 @@ export default function LoadingResults({
   const percent = Math.min((activeStep / steps.length) * 100, 100);
   const allDone = activeStep >= steps.length;
 
-  // 1) Change submitResults to return insertedId (or null on failure)
   const submitResults = async () => {
     setIsSubmitting(true);
     try {
@@ -67,7 +58,6 @@ export default function LoadingResults({
         return null;
       } else {
         console.log("✅ [LoadingResults] Successfully submitted. Inserted ID:", result.insertedId);
-        // ← Return the newly created ObjectId string
         return result.insertedId;
       }
     } catch (error) {
@@ -78,15 +68,13 @@ export default function LoadingResults({
     }
   };
 
-const handleShowClick = async () => {
-  if (!allDone || isSubmitting) return;
-
-  const newUserId = await submitResults();
-  if (newUserId) {
-    // Pass the MongoDB ID as string
-    onShowResults(newUserId);
-  }
-};
+  const handleShowClick = async () => {
+    if (!allDone || isSubmitting) return;
+    const newUserId = await submitResults();
+    if (newUserId) {
+      onShowResults(newUserId);
+    }
+  };
 
   return (
     <motion.div
@@ -109,12 +97,15 @@ const handleShowClick = async () => {
 
         <div className="text-center">
           <motion.h2
-            className={`${allDone ? "text-green-700" : "text-gray-800"} text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3`}
+            className={`${allDone ? "text-indigo-700" : "text-gray-800"} text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            {allDone ? `All set, ${userName || "friend"}!` : `Processing ${userName || "your"} results`}
+            {allDone
+              ? `Your results are ready${userName ? `, ${userName}` : ""}!`
+              : `Processing ${userName || "your"} results`
+            }
           </motion.h2>
 
           {!allDone && (
@@ -127,14 +118,14 @@ const handleShowClick = async () => {
           )}
 
           <motion.p
-            className={`${allDone ? "text-green-800" : "text-gray-600"} text-sm sm:text-base max-w-xs sm:max-w-sm md:max-w-md mx-auto`}
+            className={`${allDone ? "text-indigo-800" : "text-gray-600"} text-sm sm:text-base max-w-xs sm:max-w-sm md:max-w-md mx-auto`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             {allDone
-              ? "Your Confidence Archetype is ready! Tap below to view your personalized insights."
-              : "We’re carefully analyzing your responses to determine your unique Confidence Archetype."}
+              ? "Tap the button below to view your personalized insights."
+              : "We're carefully analyzing your responses to determine your unique Confidence Archetype."}
           </motion.p>
         </div>
       </div>
@@ -163,14 +154,14 @@ const handleShowClick = async () => {
           ) : (
             <motion.div
               key="complete"
-              className="flex flex-col items-center p-4 sm:p-6 md:p-8 bg-green-50 border border-green-200 rounded-2xl shadow-sm"
+              className="flex flex-col items-center p-4 sm:p-6 md:p-8 bg-indigo-50 border border-indigo-200 rounded-2xl shadow-sm"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <FiCheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 mb-2 sm:mb-3" />
-              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-green-800 mb-2">
-                Congratulations!
+              <FiCheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-600 mb-2 sm:mb-3" />
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-indigo-800 mb-2">
+                Results Ready
               </h3>
               <button
                 onClick={handleShowClick}
@@ -181,7 +172,7 @@ const handleShowClick = async () => {
                     : "bg-indigo-600 hover:bg-indigo-700 text-white"
                 } rounded-lg sm:rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 transition text-sm sm:text-base`}
               >
-                {isSubmitting ? "Saving..." : "Show My Results"}
+                {isSubmitting ? "Loading..." : "Show My Results"}
               </button>
             </motion.div>
           )}
@@ -198,30 +189,33 @@ const handleShowClick = async () => {
             <span className="text-xs sm:text-sm text-gray-500">
               {allDone ? "Completed" : "Processing"}
             </span>
-            <span className={`text-xs sm:text-sm font-medium ${allDone ? "text-green-600" : "text-indigo-600"}`}>
+            <span className="text-xs sm:text-sm font-medium text-indigo-600">
               {Math.round(percent)}%
             </span>
           </div>
 
-          <div className={`h-2 sm:h-3 rounded-full overflow-hidden ${allDone ? "bg-green-100" : "bg-gray-200"}`}>
+          <div className="h-2 sm:h-3 rounded-full overflow-hidden bg-gray-200">
             <motion.div
-              className={`h-full ${allDone ? "bg-green-500" : "bg-gradient-to-r from-indigo-500 to-purple-500"}`}
-              initial={{ width: allDone ? "100%" : "0%" }}
+              className="h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+              initial={{ width: "0%" }}
               animate={{ width: `${percent}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
           </div>
+<motion.p
+  className={`mt-3 sm:mt-4 text-center text-xs sm:text-sm ${
+    allDone ? "text-indigo-700" : "text-gray-500"
+  } italic flex items-center justify-center`}
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 0.4 }}
+>
+  <FiLock className="mr-1 w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
+  {allDone
+    ? "Your data is processed privately and securely"
+    : "Your personalized confidence archetype is almost ready..."}
+</motion.p>
 
-          <motion.p
-            className={`mt-3 sm:mt-4 text-center text-xs sm:text-sm ${allDone ? "text-green-700" : "text-gray-500"} italic`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            {allDone
-              ? 'Tap “Show My Results” to see your full profile.'
-              : "Your personalized confidence archetype is almost ready…"}
-          </motion.p>
         </motion.div>
       </div>
     </motion.div>

@@ -260,7 +260,7 @@ export default function PersonalityQuiz() {
         {/* Background image + overlay */}
         <div className="fixed inset-0 ">
           <div
-            className="absolute inset-0 bg-[url('/assets/bg.jpg')] bg-cover bg-center"
+            className="absolute inset-0 bg-[url('/assets/bg.webp')] bg-cover bg-center"
             aria-hidden="true"
           />
           <div className="absolute inset-0 bg-black/40" aria-hidden="true" />

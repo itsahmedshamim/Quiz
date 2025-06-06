@@ -1,16 +1,17 @@
 // src/app/components/results/CongratsBanner.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import { FiAward } from "react-icons/fi";
+import archetypeData from "../../data/archetypeData"; // adjust to your real path
 
 export default function CongratsBanner({
   userName,
   selectedArchetype,
-  archetypeData,
   colorClass,
   percentage
 }) {
   const hasMatch = percentage > 0;
+  const imagePath =
+    archetypeData[selectedArchetype]?.image || "/assets/images/default-trophy.png";
 
   return (
     <motion.div
@@ -19,14 +20,12 @@ export default function CongratsBanner({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.7 }}
     >
-      {/* ─── Background layers (always) ─── */}
+      {/* ─── Background layers ─── */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 -left-10 w-72 h-72 rounded-full bg-white bg-opacity-10"></div>
         <div className="absolute bottom-10 -right-10 w-80 h-80 rounded-full bg-white bg-opacity-10"></div>
         <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-full bg-white bg-opacity-10"></div>
-
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
-
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
@@ -52,20 +51,38 @@ export default function CongratsBanner({
         <div className="max-w-3xl mx-auto">
           {hasMatch ? (
             <>
-              {/* Trophy Animation */}
+              {/* Enhanced Archetype Image - Square with Rounded Corners */}
               <motion.div
-                className="inline-block p-4 bg-white/20 backdrop-blur-md rounded-full mb-6 shadow-lg"
-                initial={{ rotate: -30, scale: 0.8 }}
+                className="relative mx-auto mb-8 w-40 h-40 md:w-52 md:h-52"
+                initial={{ rotate: -15, scale: 0.8 }}
                 animate={{ rotate: 0, scale: 1 }}
                 transition={{ delay: 0.3, type: "spring" }}
               >
-                <div className="relative">
-                  <FiAward className="text-3xl md:text-4xl text-white" />
-                  <div className="absolute top-0 left-0 w-full h-full rounded-full bg-white/30 animate-ping" />
+                {/* Shine effect */}
+                <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent mix-blend-overlay"></div>
+                </div>
+                
+                {/* Glow effect */}
+                <div className="absolute inset-0 rounded-2xl bg-white/30 blur-lg animate-pulse-slow"></div>
+                
+                {/* Image container */}
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/30 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+                  {/* Golden frame */}
+                  <div className="absolute inset-0 rounded-xl border-[3px] border-amber-300/70 shadow-[inset_0_0_20px_rgba(255,215,0,0.8)]"></div>
+                  
+                  {/* Image with optimized loading */}
+                  <img
+                    src={imagePath}
+                    alt={selectedArchetype}
+                    className="w-full h-full object-contain p-4 bg-white/5"
+                    loading="eager"
+                    decoding="async"
+                  />
                 </div>
               </motion.div>
 
-              {/* Congratulations */}
+              {/* Congratulations Text */}
               <motion.h1
                 className="text-2xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg"
                 initial={{ opacity: 0, y: 10 }}
@@ -109,7 +126,7 @@ export default function CongratsBanner({
             </>
           ) : (
             <>
-              {/* Fallback: invite to schedule a consultation */}
+              {/* Fallback: Invitation to Book */}
               <motion.h1
                 className="text-2xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg"
                 initial={{ opacity: 0, y: 10 }}
@@ -137,7 +154,9 @@ export default function CongratsBanner({
                 <p className="text-white/80 text-lg md:text-xl">
                   Based on your test-based results, we recommend scheduling a consultation to discover your true Confidence Archetype. 
                   <br />
-                  <span className="block mt-2 font-semibold">Book your session now to take the next step!</span>
+                  <span className="block mt-2 font-semibold">
+                    Book your session now to take the next step!
+                  </span>
                 </p>
               </motion.div>
             </>
@@ -145,7 +164,7 @@ export default function CongratsBanner({
         </div>
       </div>
 
-      {/* ─── Bottom border ─── */}
+      {/* ─── Bottom gradient border ─── */}
       <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400"></div>
 
       {/* ─── Corner accents ─── */}

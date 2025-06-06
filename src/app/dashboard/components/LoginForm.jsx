@@ -2,9 +2,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FiLock, FiLogIn, FiAlertCircle } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
+import { FiLock, FiLogIn, FiAlertCircle, FiHome } from 'react-icons/fi';
 
 export default function LoginForm({ onLogin, errorMessage }) {
+  const router = useRouter();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [fieldError, setFieldError] = useState({ username: '', password: '' });
@@ -21,21 +24,17 @@ export default function LoginForm({ onLogin, errorMessage }) {
       errors.password = 'Password is required';
     }
     setFieldError(errors);
-    // Return true if no errors
     return !errors.username && !errors.password;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitError('');
-    // Validate
     if (!validateFields()) return;
 
     setIsLoading(true);
     try {
-      // Wrap onLogin in Promise.resolve in case it's not a promise
       await Promise.resolve(onLogin(username, password));
-      // On success, keep loading off. Parent should redirect or clear the form.
     } catch (err) {
       setSubmitError(err?.message || 'Login failed. Please try again.');
     } finally {
@@ -49,7 +48,7 @@ export default function LoginForm({ onLogin, errorMessage }) {
       <div className="absolute inset-0 overflow-hidden">
         {/* Gradient Mesh */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-gray-900 to-black" />
-        
+
         {/* Subtle Grid Pattern */}
         <div className="absolute inset-0 opacity-10">
           <svg
@@ -77,6 +76,17 @@ export default function LoginForm({ onLogin, errorMessage }) {
         </div>
       </div>
 
+      {/* ===== Home Button ===== */}
+      <div className="relative z-10 p-6">
+        <button
+          onClick={() => router.push('/')}
+          className="flex items-center text-gray-300 hover:text-white transition-colors"
+        >
+          <FiHome className="mr-2 h-5 w-5" />
+          Home
+        </button>
+      </div>
+
       {/* ===== Form Container ===== */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
         <div className="bg-gray-800/70 backdrop-blur-xl rounded-2xl shadow-2xl p-8 max-w-md w-full border border-white/10">
@@ -85,7 +95,9 @@ export default function LoginForm({ onLogin, errorMessage }) {
             <div className="bg-gradient-to-br from-indigo-600 to-violet-700 text-indigo-200 rounded-2xl p-4 w-20 h-20 mx-auto flex items-center justify-center mb-4 shadow-lg">
               <FiLock className="h-8 w-8" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-100 mb-2 tracking-tight">Admin Portal</h2>
+            <h2 className="text-3xl font-bold text-gray-100 mb-2 tracking-tight">
+              Admin Portal
+            </h2>
             <p className="text-gray-400 font-light">Secure access to dashboard</p>
           </div>
 
@@ -211,7 +223,7 @@ export default function LoginForm({ onLogin, errorMessage }) {
               )}
             </button>
           </form>
-          
+
           {/* Footer Note */}
           <p className="mt-6 text-center text-xs text-gray-500">
             © {new Date().getFullYear()} Admin Portal. Restricted access.
@@ -231,3 +243,4 @@ export default function LoginForm({ onLogin, errorMessage }) {
     </div>
   );
 }
+
