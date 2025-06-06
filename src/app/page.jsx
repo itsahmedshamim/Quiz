@@ -142,14 +142,47 @@ export default function PersonalityQuiz() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col overflow-hidden">
-      {/* Background image + overlay */}
-      <div className="fixed inset-0">
-        <div
-          className="absolute inset-0 bg-[url('/assets/bg.webp')] bg-cover bg-center"
-          aria-hidden="true"
+    <div className="relative min-h-screen flex flex-col overflow-hidden bg-[#00003C]">
+      {/* ─── Modern, Premium-Style Blurred Gradients (Very Subtle) ──────────── */}
+      <div className="fixed inset-0 overflow-hidden z-0">
+        {/* Large blurred gradient circle #1 */}
+        <motion.div
+          className="absolute top-1/4 left-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 opacity-10 filter blur-3xl"
+          style={{ transform: "translateX(-50%)" }}
+          animate={{ scale: [1, 1.02, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
-        <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
+
+        {/* Smaller blurred gradient circle #2 */}
+        <motion.div
+          className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-blue-400 to-teal-400 opacity-8 filter blur-2xl"
+          animate={{ scale: [1, 0.98, 1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        {/* Geometric Pattern Overlay */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            <pattern
+              id="pattern-circles"
+              x="0"
+              y="0"
+              width="20"
+              height="20"
+              patternUnits="userSpaceOnUse"
+            >
+              <circle cx="10" cy="10" r="1" fill="#ffffff" />
+            </pattern>
+            <rect x="0" y="0" width="100" height="100" fill="url(#pattern-circles)" />
+          </svg>
+        </div>
+
+        {/* Subtle Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#00003C] via-transparent to-[#1E3A8A] opacity-30"></div>
       </div>
 
       <Header />
@@ -257,7 +290,7 @@ export default function PersonalityQuiz() {
                   archetype={archetype}
                   totalQuestions={totalQuestions}
                   userName={userData.name}
-                  userId={mongoId} // Pass the full 24-char ObjectId
+                  userId={mongoId}
                   onRestart={handleRestart}
                   tally={tally}
                   shouldSubmit={true}

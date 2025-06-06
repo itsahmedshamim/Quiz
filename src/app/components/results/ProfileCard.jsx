@@ -70,7 +70,7 @@ export default function ProfileCard() {
                 <span className="text-sm md:text-base font-medium">Connect on LinkedIn</span>
               </a>
               <a
-                href="https://www.alexdumascoaching.com/"
+                href="https://www.speakeralexdumas.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white rounded-lg transition-all duration-300 shadow hover:shadow-md"
