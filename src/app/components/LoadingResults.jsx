@@ -3,7 +3,16 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiBarChart2, FiPieChart, FiTrendingUp, FiUser, FiAward, FiEyeOff, FiCheckCircle, FiLock } from "react-icons/fi";
+import {
+  FiBarChart2,
+  FiPieChart,
+  FiTrendingUp,
+  FiUser,
+  FiAward,
+  FiEyeOff,
+  FiCheckCircle,
+  FiLock
+} from "react-icons/fi";
 
 export default function LoadingResults({
   userName,
@@ -38,7 +47,6 @@ export default function LoadingResults({
   const submitResults = async () => {
     setIsSubmitting(true);
     try {
-      console.log("⚡️ [LoadingResults] submitResults called - about to POST to /api/submit-result");
       const response = await fetch("/api/submit-result", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,15 +61,9 @@ export default function LoadingResults({
         })
       });
       const result = await response.json();
-      if (!result.success) {
-        console.error("❌ [LoadingResults] Failed to save results:", result.error);
-        return null;
-      } else {
-        console.log("✅ [LoadingResults] Successfully submitted. Inserted ID:", result.insertedId);
-        return result.insertedId;
-      }
+      return result.success ? result.insertedId : null;
     } catch (error) {
-      console.error("❌ [LoadingResults] Error submitting results:", error);
+      console.error(error);
       return null;
     } finally {
       setIsSubmitting(false);
@@ -92,25 +94,26 @@ export default function LoadingResults({
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           title="What’s happening?"
         >
-          <FiEyeOff className="w-5 h-5 sm:w-6 sm:h-6" />
+          <FiEyeOff className="w-5 h-5 sm:w-6 sm:h-6 text-[#022f6b]" />
         </motion.div>
 
         <div className="text-center">
           <motion.h2
-            className={`${allDone ? "text-indigo-700" : "text-gray-800"} text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3`}
+            className={`${
+              allDone ? "text-[#022f6b]" : "text-gray-800"
+            } text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             {allDone
               ? `Your results are ready${userName ? `, ${userName}` : ""}!`
-              : `Processing ${userName || "your"} results`
-            }
+              : `Processing ${userName || "your"} results`}
           </motion.h2>
 
           {!allDone && (
             <motion.div
-              className="mx-auto mb-3 h-10 w-10 sm:h-12 sm:w-12 border-4 border-t-indigo-500 border-gray-200 rounded-full animate-spin"
+              className="mx-auto mb-3 h-10 w-10 sm:h-12 sm:w-12 border-4 border-t-[#022f6b] border-gray-200 rounded-full animate-spin"
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
@@ -118,7 +121,9 @@ export default function LoadingResults({
           )}
 
           <motion.p
-            className={`${allDone ? "text-indigo-800" : "text-gray-600"} text-sm sm:text-base max-w-xs sm:max-w-sm md:max-w-md mx-auto`}
+            className={`${
+              allDone ? "text-[#022f6b]" : "text-gray-600"
+            } text-sm sm:text-base max-w-xs sm:max-w-sm md:max-w-md mx-auto`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -136,17 +141,17 @@ export default function LoadingResults({
           {!allDone ? (
             <motion.div
               key={activeStep}
-              className="flex items-center justify-center p-4 sm:p-6 rounded-xl bg-indigo-50 border border-indigo-200 shadow-sm"
+              className="flex items-center justify-center p-4 sm:p-6 rounded-xl bg-[#022f6b]/10 border border-[#022f6b]/20 shadow-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
             >
               <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#022f6b]/20 text-[#022f6b] flex items-center justify-center">
                   {steps[activeStep]?.icon}
                 </div>
-                <p className="text-sm sm:text-base font-medium text-indigo-800">
+                <p className="text-sm sm:text-base font-medium text-[#022f6b]">
                   {steps[activeStep]?.text}
                 </p>
               </div>
@@ -154,13 +159,13 @@ export default function LoadingResults({
           ) : (
             <motion.div
               key="complete"
-              className="flex flex-col items-center p-4 sm:p-6 md:p-8 bg-indigo-50 border border-indigo-200 rounded-2xl shadow-sm"
+              className="flex flex-col items-center p-4 sm:p-6 md:p-8 bg-[#022f6b]/10 border border-[#022f6b]/20 rounded-2xl shadow-sm"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <FiCheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-600 mb-2 sm:mb-3" />
-              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-indigo-800 mb-2">
+              <FiCheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-[#022f6b] mb-2 sm:mb-3" />
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[#022f6b] mb-2">
                 Results Ready
               </h3>
               <button
@@ -169,8 +174,8 @@ export default function LoadingResults({
                 className={`w-full sm:w-auto mt-2 px-4 sm:px-6 py-2 sm:py-2.5 ${
                   isSubmitting
                     ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                    : "bg-indigo-600 hover:bg-indigo-700 text-white"
-                } rounded-lg sm:rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 transition text-sm sm:text-base`}
+                    : "bg-[#022f6b] hover:bg-[#c2a070] text-white"
+                } rounded-lg sm:rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#022f6b]/50 transition text-sm sm:text-base`}
               >
                 {isSubmitting ? "Loading..." : "Show My Results"}
               </button>
@@ -189,33 +194,33 @@ export default function LoadingResults({
             <span className="text-xs sm:text-sm text-gray-500">
               {allDone ? "Completed" : "Processing"}
             </span>
-            <span className="text-xs sm:text-sm font-medium text-indigo-600">
+            <span className="text-xs sm:text-sm font-medium text-[#022f6b]">
               {Math.round(percent)}%
             </span>
           </div>
 
           <div className="h-2 sm:h-3 rounded-full overflow-hidden bg-gray-200">
             <motion.div
-              className="h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+              className="h-full bg-gradient-to-r from-[#022f6b] to-[#c2a070]"
               initial={{ width: "0%" }}
               animate={{ width: `${percent}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
           </div>
-<motion.p
-  className={`mt-3 sm:mt-4 text-center text-xs sm:text-sm ${
-    allDone ? "text-indigo-700" : "text-gray-500"
-  } italic flex items-center justify-center`}
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 0.4 }}
->
-  <FiLock className="mr-1 w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
-  {allDone
-    ? "Your data is processed privately and securely"
-    : "Your personalized confidence archetype is almost ready..."}
-</motion.p>
 
+          <motion.p
+            className={`mt-3 sm:mt-4 text-center text-xs sm:text-sm ${
+              allDone ? "text-[#022f6b]" : "text-gray-500"
+            } italic flex items-center justify-center`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            <FiLock className="mr-1 w-4 h-4 sm:w-5 sm:h-5 text-[#022f6b]" />
+            {allDone
+              ? "Your data is processed privately and securely"
+              : "Your personalized confidence archetype is almost ready..."}
+          </motion.p>
         </motion.div>
       </div>
     </motion.div>

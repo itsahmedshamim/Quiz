@@ -45,7 +45,7 @@ export default function Question({
       {/* Progress bar with user info */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex justify-between items-center mb-3">
-          <div className="text-sm font-medium text-indigo-600">
+          <div className="text-sm font-medium text-[#022f6b]">
             {userName ? `${userName}'s Assessment` : "Confidence Assessment"}
           </div>
           <div className="text-sm font-medium text-gray-500">
@@ -56,7 +56,7 @@ export default function Question({
         {/* Outer track */}
         <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+            className="h-full bg-gradient-to-r from-[#022f6b] to-[#c2a070]"
             initial={{ width: "0%" }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -84,7 +84,7 @@ export default function Question({
             {questionData.question}
           </motion.h2>
           <motion.div
-            className="h-0.5 bg-gradient-to-r from-indigo-200 to-purple-200"
+            className="h-0.5 bg-gradient-to-r from-[#022f6b]/20 to-[#c2a070]/20"
             initial={{ width: 0 }}
             animate={{ width: "100%" }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -113,12 +113,12 @@ export default function Question({
                 rounded-xl
                 text-left
                 transition-all duration-200
-                focus:outline-none focus:ring-2 focus:ring-indigo-100
-                hover:border-indigo-300
+                focus:outline-none focus:ring-2 focus:ring-[#022f6b]/20
+                hover:border-[#022f6b]
                 ${disabled ? "opacity-60" : "cursor-pointer"}
                 ${
                   selectedOption === option.label
-                    ? "ring-2 ring-indigo-300 bg-indigo-50 border-indigo-300"
+                    ? "ring-2 ring-[#022f6b] bg-[#022f6b]/10 border-[#022f6b]"
                     : "bg-white border-gray-200"
                 }
               `}
@@ -134,8 +134,8 @@ export default function Question({
                   transition-colors
                   ${
                     selectedOption === option.label
-                      ? "bg-indigo-600 text-white"
-                      : "bg-indigo-100 text-indigo-600"
+                      ? "bg-[#022f6b] text-white"
+                      : "bg-[#022f6b]/10 text-[#022f6b]"
                   }
                 `}
               >
@@ -148,7 +148,7 @@ export default function Question({
                   transition-colors
                   ${
                     selectedOption === option.label
-                      ? "text-indigo-800 font-medium"
+                      ? "text-[#022f6b] font-medium"
                       : "text-gray-800"
                   }
                 `}
@@ -162,12 +162,12 @@ export default function Question({
         {/* Last question indicator */}
         {isLastQuestion && (
           <motion.div
-            className="mt-8 p-4 bg-indigo-50 rounded-xl border border-indigo-100 text-center"
+            className="mt-8 p-4 bg-[#022f6b]/10 rounded-xl border border-[#022f6b]/20 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
-            <p className="text-indigo-700 font-medium">
+            <p className="text-[#022f6b] font-medium">
               This is the final question! Your results will appear after you
               select an answer.
             </p>

@@ -83,15 +83,16 @@ export default function ArchetypeDetails({
             </p>
           </div>
 
-          <a
-            href={data.cta.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50 mb-4"
-          >
-            <span className="text-sm md:text-base">Let's Talk</span>
-            <FiArrowRight className="ml-2" />
-          </a>
+       <a
+  href={data.cta.link}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 bg-[#022f6b] text-white font-bold rounded-xl shadow-lg hover:bg-[#c2a070] transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#022f6b] focus:ring-opacity-50 mb-4"
+>
+  <span className="text-sm md:text-base">Let's Talk</span>
+  <FiArrowRight className="ml-2" />
+</a>
+
 
           <ProfileCard />
         </motion.div>

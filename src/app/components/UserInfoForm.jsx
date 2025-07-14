@@ -39,14 +39,19 @@ export default function UserInfoForm({ onSubmit, loading }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="p-8">
+      <div className="p-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-5">
-            <FiUser className="text-indigo-600 w-10 h-10" />
-          </div>
+         <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-5">
+  <img
+    src="/assets/person-photo.png"        /* ← use a 160×160px (or larger) source */
+    alt="Profile"
+    className="w-full h-full object-cover"
+  />
+</div>
+
           <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-            Personalize Your Experience
+           What's Your Leadership Archetype?
           </h2>
           <p className="text-gray-600 text-sm leading-relaxed">
             The Confidence Code: What's shaping how you speak up and stand out?
@@ -97,29 +102,48 @@ export default function UserInfoForm({ onSubmit, loading }) {
             {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email}</p>}
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full flex justify-between items-center py-4 px-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold text-sm rounded-xl shadow-lg transition-all duration-200 ${
-              loading ? 'opacity-70 cursor-not-allowed' : 'hover:from-indigo-700 hover:to-purple-700 hover:shadow-xl'
-            }`}
-          >
-            {loading ? (
-              <div className="flex items-center mx-auto">
-                <svg className="animate-spin mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                </svg>
-                Processing...
-              </div>
-            ) : (
-              <>
-                <span>Discover Your Dominant Confidence Archetype</span>
-                <FiArrowRight className="ml-2 w-5 h-5" />
-              </>
-            )}
-          </button>
+       {/* Submit Button */}
+<button
+  type="submit"
+  disabled={loading}
+  className={`w-full flex justify-between items-center py-4 px-5 bg-[#022f6b] text-white font-semibold text-sm rounded-xl shadow-lg transition-all duration-200 ${
+    loading
+      ? "opacity-70 cursor-not-allowed"
+      : "hover:bg-[#021e4f] hover:shadow-xl"
+  }`}
+>
+  {loading ? (
+    <div className="flex items-center mx-auto">
+      <svg
+        className="animate-spin mr-2 h-5 w-5 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        ></path>
+      </svg>
+      Processing...
+    </div>
+  ) : (
+    <>
+      <span>Discover Your Dominant Confidence Archetype</span>
+      <FiArrowRight className="ml-2 w-5 h-5" />
+    </>
+  )}
+</button>
+
 
           {/* Updated Privacy Notice with Icon */}
           <div className="mt-4 flex items-center justify-center text-xs text-gray-500">

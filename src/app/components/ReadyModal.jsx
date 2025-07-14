@@ -23,10 +23,10 @@ export default function ReadyModal({ isOpen, onClose, onStartQuiz }) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 rounded-full bg-[#022f6b]/10 flex items-center justify-center mx-auto mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-indigo-600"
+                  className="h-8 w-8 text-[#022f6b]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -52,7 +52,7 @@ export default function ReadyModal({ isOpen, onClose, onStartQuiz }) {
                 </button>
                 <button
                   onClick={onStartQuiz}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium hover:from-indigo-700 hover:to-purple-700 shadow-md transition-all"
+                  className="px-5 py-2.5 rounded-xl bg-[#022f6b] text-white font-medium hover:bg-[#c2a070] shadow-md transition-all"
                 >
                   Start Quiz
                 </button>

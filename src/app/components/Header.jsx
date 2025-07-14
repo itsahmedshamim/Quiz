@@ -3,77 +3,77 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { FiVideo } from "react-icons/fi";
 
 export default function Header({ onSearchClick }) {
   const handleLogoClick = () => {
-    // Navigate to “/” and force a full page reload
     window.location.href = "/";
   };
 
   return (
     <header className="sticky top-0 inset-x-0 bg-white/80 backdrop-blur-sm border-b border-gray-200 z-10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        {/* Logo + Title (clickable to refresh) */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+        {/* Logo + Title */}
         <div
           onClick={handleLogoClick}
-          className="flex items-center gap-3 cursor-pointer select-none"
+          className="flex items-center cursor-pointer select-none"
         >
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 sm:h-6 sm:w-6 text-white"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clipRule="evenodd"
-              />
-            </svg>
+          <div className="relative flex-shrink-0">
+            <img
+              src="/assets/logo.png"
+              alt="Logo"
+              className="
+                w-16 h-16         /* 64×64px on mobile */
+                sm:w-20 sm:h-20   /* 80×80px on small */
+                md:w-24 md:h-24   /* 96×96px on medium */
+                lg:w-28 lg:h-28   /* 112×112px on large */
+                xl:w-32 xl:h-32   /* 128×128px on xl */
+                object-contain
+                align-middle
+              "
+            />
           </div>
-          <h1 className="text-lg sm:text-2xl font-bold text-gray-800 tracking-tight">
-            Confidence
-            <span className="text-indigo-600">Archetype</span>
-          </h1>
+          <div className="ml-4 flex items-baseline">
+            <h1
+              className="
+                text-2xl sm:text-3xl font-bold tracking-tight
+                leading-tight
+              "
+            >
+              <span className="text-[#022f6b]">Confidence</span>
+              <span className="text-[#c2a070]">Archetype</span>
+            </h1>
+          </div>
         </div>
 
-        {/* Responsive Verify Button */}
-        {/* <motion.button
-          onClick={onSearchClick}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          aria-label="Verify your results"
-          className="
-            flex items-center gap-2
-            bg-gradient-to-r from-indigo-600 to-purple-600
-            text-white font-medium
-            px-3 sm:px-4 py-2 sm:py-2.5
-            rounded-full
-            shadow-xl
-            transition duration-200
-            focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50
-            hover:from-indigo-500 hover:to-purple-500
-          "
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 sm:h-5 sm:w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
+        {/* Desktop Navigation - Right-aligned "Let's Talk" button */}
+        <div className="hidden md:block">
+          <motion.a
+            href="https://calendly.com/alexdumascoaching/strategy"
+            whileHover={{
+              y: -2,
+              boxShadow: "0 4px 14px rgba(194, 160, 112, 0.25)",
+            }}
+            whileTap={{ scale: 0.97 }}
+            aria-label="Let's Talk"
+            className="
+              flex items-center gap-2
+              border border-[#c2a070]
+              text-[#c2a070] font-medium
+              text-base
+              px-5 py-2.5
+              rounded-full
+              transition-all duration-250
+              focus:outline-none focus:ring-2 focus:ring-[#c2a070] focus:ring-opacity-50
+              hover:text-white hover:border-transparent
+              hover:bg-gradient-to-r hover:from-[#022f6b] hover:to-[#0a4b9a]
+              whitespace-nowrap
+            "
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          <span className="text-xs sm:text-sm font-medium hidden sm:inline">
-            Verify Results
-          </span>
-        </motion.button> */}
+            <FiVideo className="h-5 w-5" />
+            <span>Let's Talk</span>
+          </motion.a>
+        </div>
       </div>
     </header>
   );

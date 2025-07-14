@@ -60,12 +60,12 @@ export default function ScoringExplanation({ onNext }) {
       <div className="p-8">
         <div className="text-center mb-8">
           <motion.div 
-            className="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 flex items-center justify-center mx-auto mb-6"
+            className="w-16 h-16 rounded-full bg-[#022f6b]/10 flex items-center justify-center mx-auto mb-6"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#022f6b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </motion.div>
@@ -97,7 +97,7 @@ export default function ScoringExplanation({ onNext }) {
             initial="hidden"
             animate="visible"
           >
-            {archetypes.map((archetype, index) => (
+            {archetypes.map((archetype) => (
               <motion.div 
                 key={archetype.name}
                 className={`rounded-lg p-3 flex items-center border ${archetype.color}`}
@@ -110,12 +110,12 @@ export default function ScoringExplanation({ onNext }) {
           </motion.div>
           
           <motion.div 
-            className="bg-indigo-50 rounded-xl p-5 border border-indigo-100"
+            className="bg-[#022f6b]/10 rounded-xl p-5 border border-[#022f6b]/20"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.5, duration: 0.4 }}
           >
-            <h3 className="font-bold text-indigo-700 mb-3">Important:</h3>
+            <h3 className="font-bold text-[#022f6b] mb-3">Important:</h3>
             <p className="text-gray-700">
               There are no right or wrong answers. Be honest with yourself to get the most accurate results. 
               Answer based on what feels most true to you, not what you think you "should" say.
@@ -131,7 +131,7 @@ export default function ScoringExplanation({ onNext }) {
         >
           <button
             onClick={onNext}
-            className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50"
+            className="px-8 py-4 bg-[#022f6b] text-white font-bold rounded-xl shadow-lg hover:bg-[#c2a070] transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#022f6b] focus:ring-opacity-50"
           >
             I Understand - Let's Begin
           </button>

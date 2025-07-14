@@ -44,31 +44,14 @@ export default function LoginForm({ onLogin, errorMessage }) {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gray-900">
-      {/* ===== Modern Gradient Background ===== */}
+      {/* Gradient Mesh */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient Mesh */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-gray-900 to-black" />
-
-        {/* Subtle Grid Pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#022f6b]/20 via-gray-900 to-black" />
         <div className="absolute inset-0 opacity-10">
-          <svg
-            className="w-full h-full"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-          >
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
             <defs>
-              <pattern
-                id="smallGrid"
-                width="40"
-                height="40"
-                patternUnits="userSpaceOnUse"
-              >
-                <path
-                  d="M 40 0 L 0 0 0 40"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="0.5"
-                />
+              <pattern id="smallGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#smallGrid)" />
@@ -76,7 +59,7 @@ export default function LoginForm({ onLogin, errorMessage }) {
         </div>
       </div>
 
-      {/* ===== Home Button ===== */}
+      {/* Home Button */}
       <div className="relative z-10 p-6">
         <button
           onClick={() => router.push('/')}
@@ -87,28 +70,23 @@ export default function LoginForm({ onLogin, errorMessage }) {
         </button>
       </div>
 
-      {/* ===== Form Container ===== */}
+      {/* Form Container */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
-        <div className="bg-gray-800/70 backdrop-blur-xl rounded-2xl shadow-2xl p-8 max-w-md w-full border border-white/10">
+        <div className="bg-gray-800/70 backdrop-blur-xl rounded-2xl shadow-2xl p-8 max-w-md w-full border border-[#022f6b]/20">
           {/* Icon + Title */}
           <div className="text-center mb-8">
-            <div className="bg-gradient-to-br from-indigo-600 to-violet-700 text-indigo-200 rounded-2xl p-4 w-20 h-20 mx-auto flex items-center justify-center mb-4 shadow-lg">
+            <div className="bg-[#022f6b] text-white rounded-2xl p-4 w-20 h-20 mx-auto flex items-center justify-center mb-4 shadow-lg">
               <FiLock className="h-8 w-8" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-100 mb-2 tracking-tight">
-              Admin Portal
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-100 mb-2 tracking-tight">Admin Portal</h2>
             <p className="text-gray-400 font-light">Secure access to dashboard</p>
           </div>
 
-          {/* ===== Form ===== */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Username Field */}
             <div>
-              <label
-                htmlFor="username"
-                className="block text-sm text-gray-300 mb-2 font-medium"
-              >
+              <label htmlFor="username" className="block text-sm text-gray-300 mb-2 font-medium">
                 Username
               </label>
               <input
@@ -118,12 +96,10 @@ export default function LoginForm({ onLogin, errorMessage }) {
                 onChange={(e) => setUsername(e.target.value)}
                 className={`
                   w-full bg-gray-700/60 border ${
-                    fieldError.username ? 'border-red-500' : 'border-gray-600/50'
+                    fieldError.username ? 'border-red-500' : 'border-[#022f6b]/50'
                   } rounded-xl px-4 py-3 text-gray-200 placeholder-gray-500
                   focus:outline-none focus:ring-2 ${
-                    fieldError.username
-                      ? 'focus:ring-red-500'
-                      : 'focus:ring-indigo-500'
+                    fieldError.username ? 'focus:ring-red-500' : 'focus:ring-[#022f6b]'
                   } transition-all duration-200
                 `}
                 placeholder="admin@example.com"
@@ -138,10 +114,7 @@ export default function LoginForm({ onLogin, errorMessage }) {
 
             {/* Password Field */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm text-gray-300 font-medium mb-2"
-              >
+              <label htmlFor="password" className="block text-sm text-gray-300 font-medium mb-2">
                 Password
               </label>
               <input
@@ -151,12 +124,10 @@ export default function LoginForm({ onLogin, errorMessage }) {
                 onChange={(e) => setPassword(e.target.value)}
                 className={`
                   w-full bg-gray-700/60 border ${
-                    fieldError.password ? 'border-red-500' : 'border-gray-600/50'
+                    fieldError.password ? 'border-red-500' : 'border-[#022f6b]/50'
                   } rounded-xl px-4 py-3 text-gray-200 placeholder-gray-500
                   focus:outline-none focus:ring-2 ${
-                    fieldError.password
-                      ? 'focus:ring-red-500'
-                      : 'focus:ring-indigo-500'
+                    fieldError.password ? 'focus:ring-red-500' : 'focus:ring-[#022f6b]'
                   } transition-all duration-200
                 `}
                 placeholder="••••••••"
@@ -184,11 +155,11 @@ export default function LoginForm({ onLogin, errorMessage }) {
               type="submit"
               disabled={isLoading}
               className={`
-                w-full bg-gradient-to-r from-indigo-600 to-violet-700 text-white font-medium py-3.5 rounded-xl 
+                w-full bg-[#022f6b] text-white font-medium py-3.5 rounded-xl 
                 flex items-center justify-center transition-all duration-300 transform hover:-translate-y-0.5
-                focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800
-                shadow-lg hover:shadow-indigo-500/20
-                ${isLoading ? 'opacity-80 cursor-not-allowed' : 'hover:opacity-90'}
+                focus:outline-none focus:ring-2 focus:ring-[#022f6b] focus:ring-offset-2 focus:ring-offset-gray-800
+                shadow-lg hover:bg-[#c2a070] hover:shadow-[#c2a070]/20
+                ${isLoading ? 'opacity-80 cursor-not-allowed' : ''}
               `}
             >
               {isLoading ? (
@@ -199,19 +170,8 @@ export default function LoginForm({ onLogin, errorMessage }) {
                     fill="none"
                     viewBox="0 0 24 24"
                   >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v8z"
-                    />
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                   </svg>
                   Authenticating...
                 </>
@@ -243,4 +203,3 @@ export default function LoginForm({ onLogin, errorMessage }) {
     </div>
   );
 }
-

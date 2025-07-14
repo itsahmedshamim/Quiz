@@ -7,76 +7,89 @@ import { FiVideo, FiShield } from "react-icons/fi";
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 py-6 px-4 text-center text-sm text-gray-300 bg-black/60 backdrop-blur-sm border-t border-gray-700">
+    <footer className="relative z-10 py-8 px-4 text-center bg-[022f6b] backdrop-blur-lg border-t border-gray-700">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          {/* Branding (logo + name), now matching Header’s logo */}
-          <div className="flex items-center justify-center gap-3">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 sm:h-6 sm:w-6 text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
+        {/* Main grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] items-center gap-6">
+          {/* Logo - left aligned on desktop */}
+          <div className="flex justify-center md:justify-start">
+            <div className="relative">
+              <img
+                src="/assets/logo-white.png"
+                alt="Confidence Archetype"
+                className="
+                  w-24 h-24        /* 96×96px */
+                  sm:w-28 sm:h-28  /* 112×112px */
+                  object-contain
+                  drop-shadow-lg
+                "
+              />
+              <div className="absolute inset-0 rounded-full -z-10"></div>
             </div>
-            <p className="font-medium text-gray-200">
-              Confidence<span className="text-indigo-400">Archetype</span>
-            </p>
           </div>
 
-          {/* Copyright */}
-          <p className="text-gray-400">
-            © {new Date().getFullYear()} All rights reserved
-          </p>
-
-          {/* Navigation Links + “Let’s Talk” */}
-          <div className="flex items-center gap-4">
-            {/* Admin link */}
-            <motion.a
-              href="/dashboard"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              aria-label="Admin"
-              className="flex items-center gap-1 text-gray-400 hover:text-indigo-400 transition-colors"
-            >
-              <FiShield className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Admin</span>
-            </motion.a>
-
-            {/* Let’s Talk as a plain <a> */}
+          {/* Center content - copyright and description */}
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-gray-300 text-sm md:text-base">
+              © {new Date().getFullYear()} Confidence Archetype. All rights reserved.
+            </p>
+            <p className="text-gray-400 max-w-md mx-auto text-sm md:text-base italic">
+              Discover your leadership archetype through our scientifically validated assessment.
+            </p>
+            
+            {/* Mobile-only "Let's Talk" button */}
             <motion.a
               href="https://calendly.com/alexdumascoaching/strategy"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              aria-label="Let’s Talk"
               className="
-                flex items-center gap-1
-                border border-indigo-600
-                text-indigo-600 font-medium text-xs md:text-sm
-                px-3 py-1.5 md:px-4 md:py-2
+                md:hidden  /* Hide on desktop */
+                flex items-center justify-center gap-2
+                border border-[#c2a070] 
+                text-[#c2a070] font-medium 
+                text-sm
+                px-4 py-2
                 rounded-full
-                transition duration-200
-                focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50
-                hover:text-white hover:border-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-600
+                mt-3
+                transition-all duration-250
+                hover:text-white hover:border-transparent 
+                hover:bg-gradient-to-r hover:from-[#022f6b] hover:to-[#0a4b9a]
               "
+              whileHover={{ 
+                y: -2,
+                boxShadow: "0 4px 10px rgba(194, 160, 112, 0.25)"
+              }}
+              whileTap={{ scale: 0.97 }}
             >
-              <FiVideo className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Let’s Talk</span>
+              <FiVideo className="h-4 w-4" />
+              <span>Let's Talk</span>
+            </motion.a>
+          </div>
+
+          {/* Admin button - right aligned on desktop */}
+          <div className="flex justify-center md:justify-end">
+            <motion.a
+              href="/dashboard"
+              className="
+                flex items-center gap-2 
+                text-gray-300 hover:text-[#c2a070] 
+                transition-colors duration-200
+                px-4 py-2
+                rounded-lg
+                bg-gray-800/50 hover:bg-gray-700/50
+                w-fit
+              "
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FiShield className="h-5 w-5" />
+              <span className="text-sm md:text-base font-medium">Admin</span>
             </motion.a>
           </div>
         </div>
 
-        {/* Description */}
-        <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-          Discover your leadership style with our scientifically designed assessment.
-        </p>
+        {/* Divider */}
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent my-6"></div>
+        
+      
       </div>
     </footer>
   );

@@ -367,31 +367,46 @@ export default function ResultsTable({
 
           {/* Pagination Controls */}
           {totalPages > 1 && (
-            <div className="px-6 py-4 bg-gray-800 flex justify-center space-x-2">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'}`}
-              >
-                Previous
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`px-3 py-1 rounded ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'}`}
-                >
-                  {page}
-                </button>
-              ))}
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'}`}
-              >
-                Next
-              </button>
-            </div>
+         <div className="px-6 py-4 bg-gray-800 flex justify-center space-x-2">
+  <button
+    onClick={() => handlePageChange(currentPage - 1)}
+    disabled={currentPage === 1}
+    className={`px-3 py-1 rounded ${
+      currentPage === 1
+        ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+        : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+    }`}
+  >
+    Previous
+  </button>
+
+  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+    <button
+      key={page}
+      onClick={() => handlePageChange(page)}
+      className={`px-3 py-1 rounded ${
+        currentPage === page
+          ? 'bg-[#022f6b] text-white'
+          : 'bg-gray-700 text-gray-200 hover:bg-[#c2a070]'
+      }`}
+    >
+      {page}
+    </button>
+  ))}
+
+  <button
+    onClick={() => handlePageChange(currentPage + 1)}
+    disabled={currentPage === totalPages}
+    className={`px-3 py-1 rounded ${
+      currentPage === totalPages
+        ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+        : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+    }`}
+  >
+    Next
+  </button>
+</div>
+
           )}
         </>
       )}
