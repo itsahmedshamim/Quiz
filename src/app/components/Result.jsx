@@ -211,7 +211,7 @@ export default function Result({
 
   return (
     <div className="relative min-h-screen">
-      <div className="relative max-w-6xl mx-auto sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="relative max-w-7xl mx-auto sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
         <div className="backdrop-blur-lg bg-white/80 rounded-3xl shadow-xl border border-white/30 overflow-hidden">
           
           {/* Congrats Banner */}

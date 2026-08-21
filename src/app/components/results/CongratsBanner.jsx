@@ -1,6 +1,7 @@
 // src/app/components/results/CongratsBanner.jsx
 import React from "react";
 import { motion } from "framer-motion";
+import { FiDownload } from "react-icons/fi";
 import archetypeData from "../../data/archetypeData"; // adjust to your real path
 
 export default function CongratsBanner({
@@ -10,16 +11,18 @@ export default function CongratsBanner({
   percentage
 }) {
   const hasMatch = percentage > 0;
-  const imagePath =
-    archetypeData[selectedArchetype]?.image || "/assets/images/default-trophy.png";
+  const selectedData = archetypeData[selectedArchetype] || {};
+  const imagePath = selectedData.image || "/assets/images/default-trophy.png";
+  const detailsImagePath = selectedData.detailsImage;
 
   return (
-    <motion.div
-      className="text-center mb-10 rounded-3xl shadow-2xl relative overflow-hidden"
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.7 }}
-    >
+    <div className="relative mb-10">
+      <motion.div
+        className="relative overflow-hidden rounded-3xl text-center shadow-2xl"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7 }}
+      >
       {/* ─── Background layers ─── */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 -left-10 w-72 h-72 rounded-full bg-white bg-opacity-10"></div>
@@ -48,12 +51,12 @@ export default function CongratsBanner({
 
       {/* ─── Main content ─── */}
       <div className={`relative z-10 py-12 px-6 bg-gradient-to-br ${colorClass.gradient}`}>
-        <div className="max-w-3xl mx-auto">
+        <div className="mx-auto w-full max-w-3xl lg:mr-[32%] lg:w-[68%] lg:max-w-none lg:pr-6">
           {hasMatch ? (
             <>
               {/* Enhanced Archetype Image - Square with Rounded Corners */}
               <motion.div
-                className="relative mx-auto mb-8 w-40 h-40 md:w-52 md:h-52"
+                className="relative mx-auto mb-5 w-48 sm:mb-6 sm:w-64"
                 initial={{ rotate: -15, scale: 0.8 }}
                 animate={{ rotate: 0, scale: 1 }}
                 transition={{ delay: 0.3, type: "spring" }}
@@ -67,15 +70,15 @@ export default function CongratsBanner({
                 <div className="absolute inset-0 rounded-2xl bg-white/30 blur-lg animate-pulse-slow"></div>
                 
                 {/* Image container */}
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/30 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+                <div className="relative w-full overflow-hidden rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
                   {/* Golden frame */}
-                  <div className="absolute inset-0 rounded-xl border-[3px] border-amber-300/70 shadow-[inset_0_0_20px_rgba(255,215,0,0.8)]"></div>
+                  <div className="absolute inset-0 rounded-xl border-2 border-amber-300/70 shadow-[inset_0_0_20px_rgba(255,215,0,0.8)]"></div>
                   
                   {/* Image with optimized loading */}
                   <img
                     src={imagePath}
                     alt={selectedArchetype}
-                    className="w-full h-full object-contain p-4 bg-white/5"
+                    className="block h-auto w-full rounded-2xl border-2 border-white/30 bg-white/5 p-2 object-contain"
                     loading="eager"
                     decoding="async"
                   />
@@ -172,6 +175,28 @@ export default function CongratsBanner({
       <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-amber-300"></div>
       <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-amber-300"></div>
       <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-amber-300"></div>
-    </motion.div>
+      </motion.div>
+
+      {detailsImagePath && (
+        <div className="relative z-20 mx-auto mt-6 flex w-full max-w-[351px] items-center justify-center lg:absolute lg:bottom-0 lg:right-0 lg:top-0 lg:mt-0 lg:w-[32%] lg:max-w-none">
+          <img
+            src={detailsImagePath}
+            alt={`${selectedArchetype} details`}
+            className="pointer-events-none block h-auto w-full object-contain object-right lg:h-full"
+            loading="eager"
+            decoding="async"
+          />
+          <a
+            href={detailsImagePath}
+            download
+            aria-label={`Download ${selectedArchetype} details image`}
+            title="Download details image"
+            className="absolute bottom-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/65 focus:outline-none focus:ring-2 focus:ring-white"
+          >
+            <FiDownload className="h-5 w-5" />
+          </a>
+        </div>
+      )}
+    </div>
   );
 }

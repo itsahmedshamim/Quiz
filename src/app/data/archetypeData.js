@@ -7,8 +7,9 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... The Quiet Achiever!",
-    image: "/assets/images/quiet-achiver.webp",
-    description: "Skilled but under- recognized; struggles to speak up.",
+    image: "/assets/images/quiet-achiver.png",
+    detailsImage: "/assets/images/quiet-achiver-details.png",
+    description: "Skilled but under-recognized; struggles to speak up.",
     challenges: "Fear of judgment, imposter syndrome.",
     opportunities: "Coaching on assertiveness, executive presence.",
     cta: {
@@ -16,6 +17,7 @@ const archetypeData = {
       link: "https://calendly.com/alexdumascoaching/strategy"
     }
   },
+
   "Perfectionist": {
     title: "You're a high-performer with high standards who tends to overthink. You're afraid of imperfection.",
     details: [
@@ -24,7 +26,8 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... The Perfectionist!",
-    image: "/assets/images/perfectionist.webp",
+    image: "/assets/images/perfectionist.png",
+    detailsImage: "/assets/images/perfectionist-details.png",
     description: "High standards but stuck in procrastination.",
     challenges: "Burnout, delay in progress.",
     opportunities: "Confidence in progress over perfection.",
@@ -33,6 +36,7 @@ const archetypeData = {
       link: "https://calendly.com/alexdumascoaching/strategy"
     }
   },
+
   "People-Pleaser": {
     title: "You tend to avoid conflict. You're constantly seeking validation.",
     details: [
@@ -41,7 +45,8 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... A People-Pleaser!",
-    image: "/assets/images/people-pleaser.webp",
+    image: "/assets/images/people-pleaser.png",
+    detailsImage: "/assets/images/people-pleaser-details.png",
     description: "Seeks validation, avoids conflict.",
     challenges: "Weak boundaries, secret resentment.",
     opportunities: "Empowerment to say 'no' and own their voice.",
@@ -50,6 +55,7 @@ const archetypeData = {
       link: "https://calendly.com/alexdumascoaching/strategy"
     }
   },
+
   "Hidden Leader": {
     title: "You're influential, yet you avoid the spotlight. You're content letting others get the credit.",
     details: [
@@ -58,7 +64,8 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... The Hidden Leader!",
-    image: "/assets/images/hidden-leader.webp",
+    image: "/assets/images/hidden-leader.png",
+    detailsImage: "/assets/images/hidden-leader-details.png",
     description: "Has influence but avoids the spotlight.",
     challenges: "Low visibility, missed opportunities.",
     opportunities: "Stepping into leadership with intention.",
@@ -67,6 +74,7 @@ const archetypeData = {
       link: "https://calendly.com/alexdumascoaching/strategy"
     }
   },
+
   "Bold Believer": {
     title: "You're as confident as it comes, however, you can be inconsistent. You have amazing ideas and intentions, but lack focus.",
     details: [
@@ -75,7 +83,8 @@ const archetypeData = {
       "The next step is booking a private strategy session and exploring how we could achieve this."
     ],
     primaryText: "Your primary archetype is... The Bold Believer!",
-    image: "/assets/images/bold-bliever.webp",
+    image: "/assets/images/bold-bliever.png",
+    detailsImage: "/assets/images/bold-bliever-details.png",
     description: "High confidence but inconsistent results.",
     challenges: "Lacks structure or clarity. Impulsivity.",
     opportunities: "Refine the strategy to match their boldness.",
