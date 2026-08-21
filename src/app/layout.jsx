@@ -3,7 +3,6 @@ export const metadata = {
   title: "Confidence Archetype Quiz | Discover Your Inner Strength",
   description:
     "Take our free Confidence Archetype Quiz to uncover your unique strength style and get personalized confidence tips.",
-  viewport: "width=device-width, initial-scale=1",
   alternates: {
     canonical: "https://quiz.speakeralexdumas.com/",
   },
@@ -28,6 +27,11 @@ export const metadata = {
       "Free quiz reveals your unique confidence style and how to leverage it for success.",
     images: "https://quiz.speakeralexdumas.com/assets/og-image.webp",
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 import "./styles/globals.css";
